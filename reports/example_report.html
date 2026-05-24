@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Network Validation Report - offline_example</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17202a;
+      --muted: #566573;
+      --line: #d5d8dc;
+      --ok: #176f43;
+      --bad: #9a3412;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: #f7f9fa;
+    }
+    main { max-width: 1120px; margin: 0 auto; padding: 32px 24px 48px; }
+    h1, h2 { margin: 0 0 12px; }
+    h1 { font-size: 28px; }
+    h2 {
+      font-size: 18px;
+      margin-top: 28px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 8px;
+    }
+    p { line-height: 1.5; }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .tile {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 14px;
+    }
+    .label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .value { font-size: 20px; font-weight: 700; margin-top: 6px; }
+    .pass { color: var(--ok); }
+    .fail { color: var(--bad); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border: 1px solid var(--line);
+    }
+    th, td {
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      padding: 9px 10px;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    th { background: #edf1f2; }
+    pre {
+      white-space: pre-wrap;
+      background: #111827;
+      color: #e5e7eb;
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    code { font-family: Menlo, Consolas, monospace; font-size: 12px; }
+    .topology {
+      font-family: Menlo, Consolas, monospace;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 16px;
+    }
+    @media (max-width: 760px) {
+      .summary { grid-template-columns: 1fr; }
+      main { padding: 20px 14px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Network Validation Report</h1>
+  <p>Example report fixture generated without a live Docker lab run.</p>
+
+  <section class="summary">
+    <div class="tile">
+      <div class="label">Scenario</div>
+      <div class="value">offline_example</div>
+    </div>
+    <div class="tile">
+      <div class="label">Status</div>
+      <div class="value pass">PASS</div>
+    </div>
+    <div class="tile">
+      <div class="label">Avg Latency</div>
+      <div class="value">0.08 ms</div>
+    </div>
+    <div class="tile">
+      <div class="label">Throughput</div>
+      <div class="value">
+        500.00 Mbps
+      </div>
+    </div>
+  </section>
+
+  <h2>Executive Summary</h2>
+  <p>
+    The lab executed a controlled validation run for <strong>offline_example</strong>.
+    Overall status is <strong class="pass">PASS</strong>.
+    The result reflects this Docker-based topology and the thresholds declared in the scenario file.
+  </p>
+
+  <h2>Scenario Configuration</h2>
+  <pre><code>{
+  "capture": {
+    "duration_seconds": 10,
+    "enabled": false,
+    "interface": "eth0"
+  },
+  "description": "Example report fixture generated without a live Docker lab run.",
+  "fault": {
+    "bandwidth_mbit": null,
+    "delay_ms": null,
+    "enabled": false,
+    "interface": "eth1",
+    "loss_percent": null
+  },
+  "name": "offline_example",
+  "target": {
+    "expected_hops": [
+      "172.30.0.254",
+      "172.31.0.10"
+    ],
+    "host": "172.31.0.10"
+  },
+  "tests": {
+    "iperf3": {
+      "duration_seconds": 3,
+      "reverse": false
+    },
+    "ping": {
+      "count": 5,
+      "timeout_seconds": 2
+    },
+    "traceroute": {
+      "max_hops": 5
+    }
+  },
+  "thresholds": {
+    "max_avg_latency_ms": 10,
+    "max_packet_loss_percent": 0,
+    "max_throughput_mbps": null,
+    "min_throughput_mbps": 100,
+    "require_expected_hops": true
+  }
+}</code></pre>
+
+  <h2>Topology</h2>
+  <div class="topology">
+linux-client (172.30.0.10)
+  -> linux-router (172.30.0.254 / 172.31.0.254)
+  -> linux-server (172.31.0.10)
+  </div>
+
+  <h2>Fault Injection Parameters</h2>
+  <table>
+    <tr><th>Parameter</th><th>Value</th></tr>
+    
+    <tr><td>bandwidth_mbit</td><td>None</td></tr>
+    
+    <tr><td>delay_ms</td><td>None</td></tr>
+    
+    <tr><td>enabled</td><td>False</td></tr>
+    
+    <tr><td>interface</td><td>eth1</td></tr>
+    
+    <tr><td>loss_percent</td><td>None</td></tr>
+    
+  </table>
+
+  <h2>Test Results</h2>
+  <table>
+    <tr><th>Test</th><th>Metric</th><th>Value</th></tr>
+    
+      
+      <tr><td>iperf3</td><td>retransmits</td><td>0</td></tr>
+      
+      <tr><td>iperf3</td><td>seconds</td><td>3.0</td></tr>
+      
+      <tr><td>iperf3</td><td>throughput_mbps</td><td>500.0</td></tr>
+      
+    
+      
+      <tr><td>ping</td><td>avg_latency_ms</td><td>0.08</td></tr>
+      
+      <tr><td>ping</td><td>max_latency_ms</td><td>0.12</td></tr>
+      
+      <tr><td>ping</td><td>mdev_latency_ms</td><td>0.02</td></tr>
+      
+      <tr><td>ping</td><td>min_latency_ms</td><td>0.05</td></tr>
+      
+      <tr><td>ping</td><td>packet_loss_percent</td><td>0.0</td></tr>
+      
+      <tr><td>ping</td><td>received</td><td>5</td></tr>
+      
+      <tr><td>ping</td><td>transmitted</td><td>5</td></tr>
+      
+    
+      
+      <tr><td>traceroute</td><td>hops</td><td>['172.30.0.254', '172.31.0.10']</td></tr>
+      
+    
+  </table>
+
+  <h2>Threshold Validation</h2>
+  <table>
+    <tr><th>Check</th><th>Status</th><th>Observed</th><th>Threshold</th><th>Detail</th></tr>
+    
+    <tr>
+      <td>packet_loss</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>Ping packet loss must remain within the scenario threshold.</td>
+    </tr>
+    
+    <tr>
+      <td>avg_latency</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>0.08</td>
+      <td>10.0</td>
+      <td>Average ICMP round-trip latency must remain within threshold.</td>
+    </tr>
+    
+    <tr>
+      <td>min_throughput</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>500.0</td>
+      <td>100.0</td>
+      <td>iperf3 measured throughput must meet the minimum target.</td>
+    </tr>
+    
+    <tr>
+      <td>expected_hops</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>['172.30.0.254', '172.31.0.10']</td>
+      <td>['172.30.0.254', '172.31.0.10']</td>
+      <td>Traceroute must include the expected routed path in order.</td>
+    </tr>
+    
+  </table>
+
+  <h2>Engineering Interpretation</h2>
+  <p>This is an offline report-generation fixture, not evidence from a live Docker lab run.</p>
+
+  <h2>Troubleshooting Recommendations</h2>
+  <ul>
+    
+    <li>Run the Docker lab once the local Docker daemon responds normally.</li>
+    
+  </ul>
+
+  <h2>Raw Command Summary</h2>
+  <table>
+    <tr><th>Command</th><th>Exit</th><th>Elapsed</th></tr>
+    
+  </table>
+</main>
+</body>
+</html>

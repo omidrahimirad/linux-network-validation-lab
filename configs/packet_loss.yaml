@@ -1,0 +1,28 @@
+name: packet_loss
+description: Forwarding path with controlled packet loss on the router egress toward the server network.
+target:
+  host: 172.31.0.10
+  expected_hops:
+    - 172.30.0.254
+    - 172.31.0.10
+fault:
+  enabled: true
+  interface: eth1
+  loss_percent: 10
+tests:
+  ping:
+    count: 20
+    timeout_seconds: 2
+  iperf3:
+    duration_seconds: 3
+  traceroute:
+    max_hops: 5
+thresholds:
+  max_avg_latency_ms: 50
+  max_packet_loss_percent: 20
+  min_throughput_mbps: 5
+  require_expected_hops: true
+capture:
+  enabled: false
+  interface: eth0
+  duration_seconds: 10

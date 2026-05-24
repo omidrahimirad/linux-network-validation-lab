@@ -1,0 +1,27 @@
+name: baseline
+description: Nominal forwarding path with no injected impairment.
+target:
+  host: 172.31.0.10
+  expected_hops:
+    - 172.30.0.254
+    - 172.31.0.10
+fault:
+  enabled: false
+  interface: eth1
+tests:
+  ping:
+    count: 5
+    timeout_seconds: 2
+  iperf3:
+    duration_seconds: 3
+  traceroute:
+    max_hops: 5
+thresholds:
+  max_avg_latency_ms: 10
+  max_packet_loss_percent: 0
+  min_throughput_mbps: 100
+  require_expected_hops: true
+capture:
+  enabled: false
+  interface: eth0
+  duration_seconds: 10

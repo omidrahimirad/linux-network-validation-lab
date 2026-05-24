@@ -1,0 +1,128 @@
+{
+  "engineering_interpretation": "This is an offline report-generation fixture, not evidence from a live Docker lab run.",
+  "fault_commands": [],
+  "fault_injection": {
+    "bandwidth_mbit": null,
+    "delay_ms": null,
+    "enabled": false,
+    "interface": "eth1",
+    "loss_percent": null
+  },
+  "generated_at": "2026-05-24T00:00:00+00:00",
+  "raw_commands": [],
+  "scenario": {
+    "capture": {
+      "duration_seconds": 10,
+      "enabled": false,
+      "interface": "eth0"
+    },
+    "description": "Example report fixture generated without a live Docker lab run.",
+    "fault": {
+      "bandwidth_mbit": null,
+      "delay_ms": null,
+      "enabled": false,
+      "interface": "eth1",
+      "loss_percent": null
+    },
+    "name": "offline_example",
+    "target": {
+      "expected_hops": [
+        "172.30.0.254",
+        "172.31.0.10"
+      ],
+      "host": "172.31.0.10"
+    },
+    "tests": {
+      "iperf3": {
+        "duration_seconds": 3,
+        "reverse": false
+      },
+      "ping": {
+        "count": 5,
+        "timeout_seconds": 2
+      },
+      "traceroute": {
+        "max_hops": 5
+      }
+    },
+    "thresholds": {
+      "max_avg_latency_ms": 10,
+      "max_packet_loss_percent": 0,
+      "max_throughput_mbps": null,
+      "min_throughput_mbps": 100,
+      "require_expected_hops": true
+    }
+  },
+  "status": "pass",
+  "test_results": {
+    "iperf3": {
+      "retransmits": 0,
+      "seconds": 3.0,
+      "throughput_mbps": 500.0
+    },
+    "ping": {
+      "avg_latency_ms": 0.08,
+      "max_latency_ms": 0.12,
+      "mdev_latency_ms": 0.02,
+      "min_latency_ms": 0.05,
+      "packet_loss_percent": 0.0,
+      "received": 5,
+      "transmitted": 5
+    },
+    "traceroute": {
+      "hops": [
+        "172.30.0.254",
+        "172.31.0.10"
+      ]
+    }
+  },
+  "topology": {
+    "client": "linux-client",
+    "client_network": "172.30.0.0/24",
+    "router": "linux-router",
+    "router_client_ip": "172.30.0.254",
+    "router_server_ip": "172.31.0.254",
+    "server": "linux-server",
+    "server_ip": "172.31.0.10",
+    "server_network": "172.31.0.0/24"
+  },
+  "troubleshooting_recommendations": [
+    "Run the Docker lab once the local Docker daemon responds normally."
+  ],
+  "validations": [
+    {
+      "detail": "Ping packet loss must remain within the scenario threshold.",
+      "name": "packet_loss",
+      "observed": 0.0,
+      "passed": true,
+      "threshold": 0.0
+    },
+    {
+      "detail": "Average ICMP round-trip latency must remain within threshold.",
+      "name": "avg_latency",
+      "observed": 0.08,
+      "passed": true,
+      "threshold": 10.0
+    },
+    {
+      "detail": "iperf3 measured throughput must meet the minimum target.",
+      "name": "min_throughput",
+      "observed": 500.0,
+      "passed": true,
+      "threshold": 100.0
+    },
+    {
+      "detail": "Traceroute must include the expected routed path in order.",
+      "name": "expected_hops",
+      "observed": [
+        "172.30.0.254",
+        "172.31.0.10"
+      ],
+      "passed": true,
+      "threshold": [
+        "172.30.0.254",
+        "172.31.0.10"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+.DS_Store
+reports/*.json
+reports/*.csv
+reports/*.html
+reports/captures/*.pcap
+!reports/.gitkeep
+!reports/results.json
+!reports/results.csv
+!reports/example_report.html
+!reports/captures/.gitkeep
