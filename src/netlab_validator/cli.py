@@ -12,6 +12,7 @@ from netlab_validator.logging_config import configure_logging
 from netlab_validator.reporting import (
     generate_html_report,
     load_results,
+    merge_result_archive,
     write_results_csv,
     write_results_json,
 )
@@ -92,8 +93,10 @@ def run_command(
 
     json_path = output_dir / "results.json"
     csv_path = output_dir / "results.csv"
-    write_results_json(results, json_path)
-    write_results_csv(results, csv_path)
+    existing_results = load_results(json_path) if json_path.exists() else None
+    archived_results = merge_result_archive(existing_results, results)
+    write_results_json(archived_results, json_path)
+    write_results_csv(archived_results, csv_path)
     console.print(f"Scenario: {scenario_config.name}")
     console.print(f"Status: {results['status']}")
     console.print(f"Wrote {json_path} and {csv_path}")

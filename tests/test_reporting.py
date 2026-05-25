@@ -3,7 +3,12 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from netlab_validator.reporting import generate_html_report, write_results_csv, write_results_json
+from netlab_validator.reporting import (
+    generate_html_report,
+    merge_result_archive,
+    write_results_csv,
+    write_results_json,
+)
 
 
 def sample_results() -> dict[str, object]:
@@ -49,7 +54,7 @@ def test_write_results_json_and_csv(tmp_path: Path) -> None:
     write_results_csv(results, csv_path)
 
     assert json.loads(json_path.read_text(encoding="utf-8"))["status"] == "pass"
-    assert "validation,packet_loss" in csv_path.read_text(encoding="utf-8")
+    assert "baseline,validation,packet_loss" in csv_path.read_text(encoding="utf-8")
 
 
 def test_generate_html_report(tmp_path: Path) -> None:
@@ -61,3 +66,20 @@ def test_generate_html_report(tmp_path: Path) -> None:
     assert "Executive Summary" in html
     assert "Network Validation Report" in html
     assert "Threshold Validation" in html
+
+
+def test_merge_result_archive_replaces_existing_scenario() -> None:
+    first = sample_results()
+    replacement = sample_results()
+    replacement["test_results"] = {
+        "ping": {"avg_latency_ms": 0.2, "packet_loss_percent": 0},
+        "iperf3": {"throughput_mbps": 600.0},
+        "traceroute": {"hops": ["172.30.0.254", "172.31.0.10"]},
+    }
+
+    archive = merge_result_archive(None, first)
+    archive = merge_result_archive(archive, replacement)
+
+    assert archive["status"] == "pass"
+    assert len(archive["runs"]) == 1
+    assert archive["runs"][0]["test_results"]["iperf3"]["throughput_mbps"] == 600.0

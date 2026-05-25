@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Network Validation Report - bandwidth_limit</title>
+  <title>Network Validation Report</title>
   <style>
     :root {
       color-scheme: light;
@@ -88,80 +88,36 @@
 <body>
 <main>
   <h1>Network Validation Report</h1>
-  <p>Forwarding path with a router egress rate limit for throughput validation.</p>
+  <p>
+    Docker-based Linux network validation evidence for connectivity, latency,
+    packet-loss, throughput, and tc/netem fault injection.
+  </p>
 
   <section class="summary">
     <div class="tile">
-      <div class="label">Scenario</div>
-      <div class="value">bandwidth_limit</div>
+      <div class="label">Scenarios</div>
+      <div class="value">4</div>
     </div>
     <div class="tile">
       <div class="label">Status</div>
       <div class="value pass">PASS</div>
     </div>
     <div class="tile">
-      <div class="label">Avg Latency</div>
-      <div class="value">0.726 ms</div>
+      <div class="label">Topology</div>
+      <div class="value">3 nodes</div>
     </div>
     <div class="tile">
-      <div class="label">Throughput</div>
-      <div class="value">
-        9.52 Mbps
-      </div>
+      <div class="label">Output</div>
+      <div class="value">JSON / CSV / HTML</div>
     </div>
   </section>
 
   <h2>Executive Summary</h2>
   <p>
-    The lab executed a controlled validation run for <strong>bandwidth_limit</strong>.
+    The lab executed <strong>4</strong> controlled validation scenario(s).
     Overall status is <strong class="pass">PASS</strong>.
-    The result reflects this Docker-based topology and the thresholds declared in the scenario file.
+    Results are container-lab measurements and should not be treated as physical-network accuracy.
   </p>
-
-  <h2>Scenario Configuration</h2>
-  <pre><code>{
-  "capture": {
-    "duration_seconds": 10,
-    "enabled": false,
-    "interface": "eth0"
-  },
-  "description": "Forwarding path with a router egress rate limit for throughput validation.",
-  "fault": {
-    "bandwidth_mbit": 10.0,
-    "delay_ms": null,
-    "enabled": true,
-    "interface": "eth1",
-    "loss_percent": null
-  },
-  "name": "bandwidth_limit",
-  "target": {
-    "expected_hops": [
-      "172.30.0.254",
-      "172.31.0.10"
-    ],
-    "host": "172.31.0.10"
-  },
-  "tests": {
-    "iperf3": {
-      "duration_seconds": 5,
-      "reverse": false
-    },
-    "ping": {
-      "count": 5,
-      "timeout_seconds": 2
-    },
-    "traceroute": {
-      "max_hops": 5
-    }
-  },
-  "thresholds": {
-    "max_avg_latency_ms": 50.0,
-    "max_packet_loss_percent": 1.0,
-    "max_throughput_mbps": 15.0,
-    "min_throughput_mbps": 5.0,
-    "require_expected_hops": true
-  }
-}</code></pre>
 
   <h2>Topology</h2>
   <div class="topology">
@@ -170,100 +126,104 @@ linux-client (172.30.0.10)
   -> linux-server (172.31.0.10)
   </div>
 
+  <h2>Scenario Results</h2>
+  <table>
+    <tr>
+      <th>Scenario</th>
+      <th>Status</th>
+      <th>Avg Latency</th>
+      <th>Packet Loss</th>
+      <th>Throughput</th>
+    </tr>
+
+    <tr>
+      <td>baseline</td>
+      <td class="pass">PASS</td>
+      <td>0.168 ms</td>
+      <td>0.0%</td>
+      <td>44356.964 Mbps</td>
+    </tr>
+
+    <tr>
+      <td>latency_degradation</td>
+      <td class="pass">PASS</td>
+      <td>85.826 ms</td>
+      <td>0.0%</td>
+      <td>64.862 Mbps</td>
+    </tr>
+
+    <tr>
+      <td>packet_loss</td>
+      <td class="pass">PASS</td>
+      <td>0.19 ms</td>
+      <td>10.0%</td>
+      <td>12.217 Mbps</td>
+    </tr>
+
+    <tr>
+      <td>bandwidth_limit</td>
+      <td class="pass">PASS</td>
+      <td>1.359 ms</td>
+      <td>0.0%</td>
+      <td>9.454 Mbps</td>
+    </tr>
+
+  </table>
+
+
+  <h2>baseline Details</h2>
+  <p>Nominal forwarding path with no injected impairment.</p>
+
   <h2>Fault Injection Parameters</h2>
   <table>
     <tr><th>Parameter</th><th>Value</th></tr>
-    
-    <tr><td>bandwidth_mbit</td><td>10.0</td></tr>
-    
-    <tr><td>delay_ms</td><td>None</td></tr>
-    
-    <tr><td>enabled</td><td>True</td></tr>
-    
-    <tr><td>interface</td><td>eth1</td></tr>
-    
-    <tr><td>loss_percent</td><td>None</td></tr>
-    
-  </table>
 
-  <h2>Test Results</h2>
-  <table>
-    <tr><th>Test</th><th>Metric</th><th>Value</th></tr>
-    
-      
-      <tr><td>iperf3</td><td>retransmits</td><td>None</td></tr>
-      
-      <tr><td>iperf3</td><td>seconds</td><td>5.838049</td></tr>
-      
-      <tr><td>iperf3</td><td>throughput_mbps</td><td>9.51936648698906</td></tr>
-      
-    
-      
-      <tr><td>ping</td><td>avg_latency_ms</td><td>0.726</td></tr>
-      
-      <tr><td>ping</td><td>max_latency_ms</td><td>1.236</td></tr>
-      
-      <tr><td>ping</td><td>mdev_latency_ms</td><td>0.362</td></tr>
-      
-      <tr><td>ping</td><td>min_latency_ms</td><td>0.234</td></tr>
-      
-      <tr><td>ping</td><td>packet_loss_percent</td><td>0.0</td></tr>
-      
-      <tr><td>ping</td><td>received</td><td>5</td></tr>
-      
-      <tr><td>ping</td><td>transmitted</td><td>5</td></tr>
-      
-    
-      
-      <tr><td>traceroute</td><td>hops</td><td>['172.30.0.254', '172.31.0.10']</td></tr>
-      
-    
+    <tr><td>bandwidth_mbit</td><td>None</td></tr>
+
+    <tr><td>delay_ms</td><td>None</td></tr>
+
+    <tr><td>enabled</td><td>False</td></tr>
+
+    <tr><td>interface</td><td>eth1</td></tr>
+
+    <tr><td>loss_percent</td><td>None</td></tr>
+
   </table>
 
   <h2>Threshold Validation</h2>
   <table>
     <tr><th>Check</th><th>Status</th><th>Observed</th><th>Threshold</th><th>Detail</th></tr>
-    
+
     <tr>
       <td>packet_loss</td>
       <td class="pass">
         PASS
       </td>
       <td>0.0</td>
-      <td>1.0</td>
+      <td>0.0</td>
       <td>Ping packet loss must remain within the scenario threshold.</td>
     </tr>
-    
+
     <tr>
       <td>avg_latency</td>
       <td class="pass">
         PASS
       </td>
-      <td>0.726</td>
-      <td>50.0</td>
+      <td>0.168</td>
+      <td>10.0</td>
       <td>Average ICMP round-trip latency must remain within threshold.</td>
     </tr>
-    
+
     <tr>
       <td>min_throughput</td>
       <td class="pass">
         PASS
       </td>
-      <td>9.519</td>
-      <td>5.0</td>
+      <td>44356.964</td>
+      <td>100.0</td>
       <td>iperf3 measured throughput must meet the minimum target.</td>
     </tr>
-    
-    <tr>
-      <td>max_throughput</td>
-      <td class="pass">
-        PASS
-      </td>
-      <td>9.519</td>
-      <td>15.0</td>
-      <td>Measured throughput should remain near the configured rate limit.</td>
-    </tr>
-    
+
     <tr>
       <td>expected_hops</td>
       <td class="pass">
@@ -273,7 +233,368 @@ linux-client (172.30.0.10)
       <td>['172.30.0.254', '172.31.0.10']</td>
       <td>Traceroute must include the expected routed path in order.</td>
     </tr>
-    
+
+  </table>
+
+  <h2>Engineering Interpretation</h2>
+  <p>Scenario 'baseline' met the configured validation thresholds for this lab topology. Results should be interpreted as controlled container-lab evidence, not as a substitute for production network monitoring.</p>
+
+  <h2>Troubleshooting Recommendations</h2>
+  <ul>
+
+    <li>Keep the scenario file with the report so thresholds remain auditable.</li>
+
+    <li>Repeat the run after Docker or host networking changes to confirm reproducibility.</li>
+
+  </ul>
+
+  <h2>Raw Command Summary</h2>
+  <table>
+    <tr><th>Command</th><th>Exit</th><th>Elapsed</th></tr>
+
+    <tr>
+      <td><code>docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true</code></td>
+      <td>0</td>
+      <td>0.063 s</td>
+    </tr>
+
+    <tr>
+      <td><code>docker exec linux-client ping -c 5 -W 2 172.31.0.10</code></td>
+      <td>0</td>
+      <td>4.159 s</td>
+    </tr>
+
+    <tr>
+      <td><code>docker exec linux-client iperf3 -c 172.31.0.10 -t 3 -J</code></td>
+      <td>0</td>
+      <td>3.085 s</td>
+    </tr>
+
+    <tr>
+      <td><code>docker exec linux-client traceroute -n -m 5 172.31.0.10</code></td>
+      <td>0</td>
+      <td>0.069 s</td>
+    </tr>
+
+    <tr>
+      <td><code>docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true</code></td>
+      <td>0</td>
+      <td>0.067 s</td>
+    </tr>
+
+  </table>
+
+  <h2>latency_degradation Details</h2>
+  <p>Forwarding path with injected one-way delay on the router egress toward the server network.</p>
+
+  <h2>Fault Injection Parameters</h2>
+  <table>
+    <tr><th>Parameter</th><th>Value</th></tr>
+
+    <tr><td>bandwidth_mbit</td><td>None</td></tr>
+
+    <tr><td>delay_ms</td><td>80.0</td></tr>
+
+    <tr><td>enabled</td><td>True</td></tr>
+
+    <tr><td>interface</td><td>eth1</td></tr>
+
+    <tr><td>loss_percent</td><td>None</td></tr>
+
+  </table>
+
+  <h2>Threshold Validation</h2>
+  <table>
+    <tr><th>Check</th><th>Status</th><th>Observed</th><th>Threshold</th><th>Detail</th></tr>
+
+    <tr>
+      <td>packet_loss</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>Ping packet loss must remain within the scenario threshold.</td>
+    </tr>
+
+    <tr>
+      <td>avg_latency</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>85.826</td>
+      <td>200.0</td>
+      <td>Average ICMP round-trip latency must remain within threshold.</td>
+    </tr>
+
+    <tr>
+      <td>min_throughput</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>64.862</td>
+      <td>50.0</td>
+      <td>iperf3 measured throughput must meet the minimum target.</td>
+    </tr>
+
+    <tr>
+      <td>expected_hops</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>['172.30.0.254', '172.31.0.10']</td>
+      <td>['172.30.0.254', '172.31.0.10']</td>
+      <td>Traceroute must include the expected routed path in order.</td>
+    </tr>
+
+  </table>
+
+  <h2>Engineering Interpretation</h2>
+  <p>Scenario 'latency_degradation' met the configured validation thresholds for this lab topology. Results should be interpreted as controlled container-lab evidence, not as a substitute for production network monitoring.</p>
+
+  <h2>Troubleshooting Recommendations</h2>
+  <ul>
+
+    <li>Keep the scenario file with the report so thresholds remain auditable.</li>
+
+    <li>Repeat the run after Docker or host networking changes to confirm reproducibility.</li>
+
+  </ul>
+
+  <h2>Raw Command Summary</h2>
+  <table>
+    <tr><th>Command</th><th>Exit</th><th>Elapsed</th></tr>
+
+    <tr>
+      <td><code>docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true</code></td>
+      <td>0</td>
+      <td>0.064 s</td>
+    </tr>
+
+    <tr>
+      <td><code>docker exec linux-router sh -lc tc qdisc replace dev eth1 root netem delay 80ms</code></td>
+      <td>0</td>
+      <td>0.06 s</td>
+    </tr>
+
+    <tr>
+      <td><code>docker exec linux-client ping -c 5 -W 3 172.31.0.10</code></td>
+      <td>0</td>
+      <td>4.191 s</td>
+    </tr>
+
+    <tr>
+      <td><code>docker exec linux-client iperf3 -c 172.31.0.10 -t 3 -J</code></td>
+      <td>0</td>
+      <td>3.696 s</td>
+    </tr>
+
+    <tr>
+      <td><code>docker exec linux-client traceroute -n -m 5 172.31.0.10</code></td>
+      <td>0</td>
+      <td>0.15 s</td>
+    </tr>
+
+    <tr>
+      <td><code>docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true</code></td>
+      <td>0</td>
+      <td>0.072 s</td>
+    </tr>
+
+  </table>
+
+  <h2>packet_loss Details</h2>
+  <p>Forwarding path with controlled packet loss on the router egress toward the server network.</p>
+
+  <h2>Fault Injection Parameters</h2>
+  <table>
+    <tr><th>Parameter</th><th>Value</th></tr>
+
+    <tr><td>bandwidth_mbit</td><td>None</td></tr>
+
+    <tr><td>delay_ms</td><td>None</td></tr>
+
+    <tr><td>enabled</td><td>True</td></tr>
+
+    <tr><td>interface</td><td>eth1</td></tr>
+
+    <tr><td>loss_percent</td><td>10.0</td></tr>
+
+  </table>
+
+  <h2>Threshold Validation</h2>
+  <table>
+    <tr><th>Check</th><th>Status</th><th>Observed</th><th>Threshold</th><th>Detail</th></tr>
+
+    <tr>
+      <td>packet_loss</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>10.0</td>
+      <td>20.0</td>
+      <td>Ping packet loss must remain within the scenario threshold.</td>
+    </tr>
+
+    <tr>
+      <td>avg_latency</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>0.19</td>
+      <td>50.0</td>
+      <td>Average ICMP round-trip latency must remain within threshold.</td>
+    </tr>
+
+    <tr>
+      <td>min_throughput</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>12.217</td>
+      <td>5.0</td>
+      <td>iperf3 measured throughput must meet the minimum target.</td>
+    </tr>
+
+    <tr>
+      <td>expected_hops</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>['172.30.0.254', '172.31.0.10']</td>
+      <td>['172.30.0.254', '172.31.0.10']</td>
+      <td>Traceroute must include the expected routed path in order.</td>
+    </tr>
+
+  </table>
+
+  <h2>Engineering Interpretation</h2>
+  <p>Scenario 'packet_loss' met the configured validation thresholds for this lab topology. Results should be interpreted as controlled container-lab evidence, not as a substitute for production network monitoring.</p>
+
+  <h2>Troubleshooting Recommendations</h2>
+  <ul>
+
+    <li>Keep the scenario file with the report so thresholds remain auditable.</li>
+
+    <li>Repeat the run after Docker or host networking changes to confirm reproducibility.</li>
+
+  </ul>
+
+  <h2>Raw Command Summary</h2>
+  <table>
+    <tr><th>Command</th><th>Exit</th><th>Elapsed</th></tr>
+
+    <tr>
+      <td><code>docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true</code></td>
+      <td>0</td>
+      <td>0.064 s</td>
+    </tr>
+
+    <tr>
+      <td><code>docker exec linux-router sh -lc tc qdisc replace dev eth1 root netem loss 10%</code></td>
+      <td>0</td>
+      <td>0.077 s</td>
+    </tr>
+
+    <tr>
+      <td><code>docker exec linux-client ping -c 20 -W 2 172.31.0.10</code></td>
+      <td>0</td>
+      <td>20.529 s</td>
+    </tr>
+
+    <tr>
+      <td><code>docker exec linux-client iperf3 -c 172.31.0.10 -t 3 -J</code></td>
+      <td>0</td>
+      <td>3.301 s</td>
+    </tr>
+
+    <tr>
+      <td><code>docker exec linux-client traceroute -n -m 5 172.31.0.10</code></td>
+      <td>0</td>
+      <td>0.079 s</td>
+    </tr>
+
+    <tr>
+      <td><code>docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true</code></td>
+      <td>0</td>
+      <td>0.066 s</td>
+    </tr>
+
+  </table>
+
+  <h2>bandwidth_limit Details</h2>
+  <p>Forwarding path with a router egress rate limit for throughput validation.</p>
+
+  <h2>Fault Injection Parameters</h2>
+  <table>
+    <tr><th>Parameter</th><th>Value</th></tr>
+
+    <tr><td>bandwidth_mbit</td><td>10.0</td></tr>
+
+    <tr><td>delay_ms</td><td>None</td></tr>
+
+    <tr><td>enabled</td><td>True</td></tr>
+
+    <tr><td>interface</td><td>eth1</td></tr>
+
+    <tr><td>loss_percent</td><td>None</td></tr>
+
+  </table>
+
+  <h2>Threshold Validation</h2>
+  <table>
+    <tr><th>Check</th><th>Status</th><th>Observed</th><th>Threshold</th><th>Detail</th></tr>
+
+    <tr>
+      <td>packet_loss</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>Ping packet loss must remain within the scenario threshold.</td>
+    </tr>
+
+    <tr>
+      <td>avg_latency</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>1.359</td>
+      <td>50.0</td>
+      <td>Average ICMP round-trip latency must remain within threshold.</td>
+    </tr>
+
+    <tr>
+      <td>min_throughput</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>9.454</td>
+      <td>5.0</td>
+      <td>iperf3 measured throughput must meet the minimum target.</td>
+    </tr>
+
+    <tr>
+      <td>max_throughput</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>9.454</td>
+      <td>15.0</td>
+      <td>Measured throughput should remain near the configured rate limit.</td>
+    </tr>
+
+    <tr>
+      <td>expected_hops</td>
+      <td class="pass">
+        PASS
+      </td>
+      <td>['172.30.0.254', '172.31.0.10']</td>
+      <td>['172.30.0.254', '172.31.0.10']</td>
+      <td>Traceroute must include the expected routed path in order.</td>
+    </tr>
+
   </table>
 
   <h2>Engineering Interpretation</h2>
@@ -281,54 +602,55 @@ linux-client (172.30.0.10)
 
   <h2>Troubleshooting Recommendations</h2>
   <ul>
-    
+
     <li>Keep the scenario file with the report so thresholds remain auditable.</li>
-    
+
     <li>Repeat the run after Docker or host networking changes to confirm reproducibility.</li>
-    
+
   </ul>
 
   <h2>Raw Command Summary</h2>
   <table>
     <tr><th>Command</th><th>Exit</th><th>Elapsed</th></tr>
-    
+
     <tr>
       <td><code>docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true</code></td>
       <td>0</td>
-      <td>0.07 s</td>
+      <td>0.08 s</td>
     </tr>
-    
+
     <tr>
       <td><code>docker exec linux-router sh -lc tc qdisc replace dev eth1 root netem rate 10mbit</code></td>
       <td>0</td>
-      <td>0.071 s</td>
+      <td>0.072 s</td>
     </tr>
-    
+
     <tr>
       <td><code>docker exec linux-client ping -c 5 -W 2 172.31.0.10</code></td>
       <td>0</td>
-      <td>4.181 s</td>
+      <td>4.142 s</td>
     </tr>
-    
+
     <tr>
       <td><code>docker exec linux-client iperf3 -c 172.31.0.10 -t 5 -J</code></td>
       <td>0</td>
-      <td>6.805 s</td>
+      <td>7.116 s</td>
     </tr>
-    
+
     <tr>
       <td><code>docker exec linux-client traceroute -n -m 5 172.31.0.10</code></td>
       <td>0</td>
-      <td>0.085 s</td>
+      <td>0.07 s</td>
     </tr>
-    
+
     <tr>
       <td><code>docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true</code></td>
       <td>0</td>
-      <td>0.076 s</td>
+      <td>0.078 s</td>
     </tr>
-    
+
   </table>
+
 </main>
 </body>
 </html>

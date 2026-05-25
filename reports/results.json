@@ -1,128 +1,711 @@
 {
-  "engineering_interpretation": "Scenario 'bandwidth_limit' met the configured validation thresholds for this lab topology. Results should be interpreted as controlled container-lab evidence, not as a substitute for production network monitoring.",
-  "fault_commands": [
-    "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
-    "docker exec linux-router sh -lc tc qdisc replace dev eth1 root netem rate 10mbit",
-    "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true"
-  ],
-  "fault_injection": {
-    "bandwidth_mbit": 10.0,
-    "delay_ms": null,
-    "enabled": true,
-    "interface": "eth1",
-    "loss_percent": null
-  },
-  "generated_at": "2026-05-25T12:33:19.315382+00:00",
-  "raw_commands": [
+  "generated_at": "2026-05-25T12:47:27.182509+00:00",
+  "runs": [
     {
-      "command": "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
-      "elapsed_seconds": 0.07,
-      "returncode": 0,
-      "stderr": "",
-      "stdout": ""
-    },
-    {
-      "command": "docker exec linux-router sh -lc tc qdisc replace dev eth1 root netem rate 10mbit",
-      "elapsed_seconds": 0.071,
-      "returncode": 0,
-      "stderr": "",
-      "stdout": ""
-    },
-    {
-      "command": "docker exec linux-client ping -c 5 -W 2 172.31.0.10",
-      "elapsed_seconds": 4.181,
-      "returncode": 0,
-      "stderr": "",
-      "stdout": "PING 172.31.0.10 (172.31.0.10) 56(84) bytes of data.\n64 bytes from 172.31.0.10: icmp_seq=1 ttl=63 time=0.234 ms\n64 bytes from 172.31.0.10: icmp_seq=2 ttl=63 time=0.975 ms\n64 bytes from 172.31.0.10: icmp_seq=3 ttl=63 time=0.425 ms\n64 bytes from 172.31.0.10: icmp_seq=4 ttl=63 time=1.24 ms\n64 bytes from 172.31.0.10: icmp_seq=5 ttl=63 time=0.764 ms\n\n--- 172.31.0.10 ping statistics ---\n5 packets transmitted, 5 received, 0% packet loss, time 4113ms\nrtt min/avg/max/mdev = 0.234/0.726/1.236/0.362 ms"
-    },
-    {
-      "command": "docker exec linux-client iperf3 -c 172.31.0.10 -t 5 -J",
-      "elapsed_seconds": 6.805,
-      "returncode": 0,
-      "stderr": "",
-      "stdout": "{\n\t\"start\":\t{\n\t\t\"connected\":\t[{\n\t\t\t\t\"socket\":\t5,\n\t\t\t\t\"local_host\":\t\"172.30.0.10\",\n\t\t\t\t\"local_port\":\t57876,\n\t\t\t\t\"remote_host\":\t\"172.31.0.10\",\n\t\t\t\t\"remote_port\":\t5201\n\t\t\t}],\n\t\t\"version\":\t\"iperf 3.18\",\n\t\t\"system_info\":\t\"Linux 0233e1602611 6.12.76-linuxkit #1 SMP Fri May  1 14:35:41 UTC 2026 aarch64\",\n\t\t\"timestamp\":\t{\n\t\t\t\"time\":\t\"Mon, 25 May 2026 12:33:12 GMT\",\n\t\t\t\"timesecs\":\t1779712392\n\t\t},\n\t\t\"connecting_to\":\t{\n\t\t\t\"host\":\t\"172.31.0.10\",\n\t\t\t\"port\":\t5201\n\t\t},\n\t\t\"cookie\":\t\"rlgvybi53uajicxjrgpe4foje6f75q6v3a7q\",\n\t\t\"tcp_mss_default\":\t1448,\n\t\t\"target_bitrate\":\t0,\n\t\t\"fq_rate\":\t0,\n\t\t\"sock_bufsize\":\t0,\n\t\t\"sndbuf_actual\":\t16384,\n\t\t\"rcvbuf_actual\":\t131072,\n\t\t\"test_start\":\t{\n\t\t\t\"protocol\":\t\"TCP\",\n\t\t\t\"num_streams\":\t1,\n\t\t\t\"blksize\":\t131072,\n\t\t\t\"omit\":\t0,\n\t\t\t\"duration\":\t5,\n\t\t\t\"bytes\":\t0,\n\t\t\t\"blocks\":\t0,\n\t\t\t\"reverse\":\t0,\n\t\t\t\"tos\":\t0,\n\t\t\t\"target_bitrate\":\t0,\n\t\t\t\"bidir\":\t0,\n\t\t\t\"fqrate\":\t0,\n\t\t\t\"interval\":\t1\n\t\t}\n\t},\n\t\"intervals\":\t[{\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t1.004447,\n\t\t\t\t\t\"seconds\":\t1.0044469833374023,\n\t\t\t\t\t\"bytes\":\t3145728,\n\t\t\t\t\t\"bits_per_second\":\t25054407.4674637,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"snd_cwnd\":\t758752,\n\t\t\t\t\t\"snd_wnd\":\t1572096,\n\t\t\t\t\t\"rtt\":\t384420,\n\t\t\t\t\t\"rttvar\":\t125483,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t0,\n\t\t\t\t\"end\":\t1.004447,\n\t\t\t\t\"seconds\":\t1.0044469833374023,\n\t\t\t\t\"bytes\":\t3145728,\n\t\t\t\t\"bits_per_second\":\t25054407.4674637,\n\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}, {\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t1.004447,\n\t\t\t\t\t\"end\":\t2.001967,\n\t\t\t\t\t\"seconds\":\t0.99752002954483032,\n\t\t\t\t\t\"bytes\":\t1703936,\n\t\t\t\t\t\"bits_per_second\":\t13665377.733036665,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"snd_cwnd\":\t818120,\n\t\t\t\t\t\"snd_wnd\":\t2942208,\n\t\t\t\t\t\"rtt\":\t628075,\n\t\t\t\t\t\"rttvar\":\t16618,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t1.004447,\n\t\t\t\t\"end\":\t2.001967,\n\t\t\t\t\"seconds\":\t0.99752002954483032,\n\t\t\t\t\"bytes\":\t1703936,\n\t\t\t\t\"bits_per_second\":\t13665377.733036665,\n\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}, {\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t2.001967,\n\t\t\t\t\t\"end\":\t3.002459,\n\t\t\t\t\t\"seconds\":\t1.0004919767379761,\n\t\t\t\t\t\"bytes\":\t917504,\n\t\t\t\t\t\"bits_per_second\":\t7336422.6507158866,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"snd_cwnd\":\t876040,\n\t\t\t\t\t\"snd_wnd\":\t5308288,\n\t\t\t\t\t\"rtt\":\t691694,\n\t\t\t\t\t\"rttvar\":\t7092,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t2.001967,\n\t\t\t\t\"end\":\t3.002459,\n\t\t\t\t\"seconds\":\t1.0004919767379761,\n\t\t\t\t\"bytes\":\t917504,\n\t\t\t\t\"bits_per_second\":\t7336422.6507158866,\n\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}, {\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t3.002459,\n\t\t\t\t\t\"end\":\t4.003877,\n\t\t\t\t\t\"seconds\":\t1.0014179944992065,\n\t\t\t\t\t\"bytes\":\t1048576,\n\t\t\t\t\t\"bits_per_second\":\t8376729.84316106,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"snd_cwnd\":\t936856,\n\t\t\t\t\t\"snd_wnd\":\t5575424,\n\t\t\t\t\t\"rtt\":\t738652,\n\t\t\t\t\t\"rttvar\":\t6311,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t3.002459,\n\t\t\t\t\"end\":\t4.003877,\n\t\t\t\t\"seconds\":\t1.0014179944992065,\n\t\t\t\t\"bytes\":\t1048576,\n\t\t\t\t\"bits_per_second\":\t8376729.84316106,\n\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}, {\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t4.003877,\n\t\t\t\t\t\"end\":\t5.005097,\n\t\t\t\t\t\"seconds\":\t1.0012199878692627,\n\t\t\t\t\t\"bytes\":\t2097152,\n\t\t\t\t\t\"bits_per_second\":\t16756772.940284863,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"snd_cwnd\":\t997672,\n\t\t\t\t\t\"snd_wnd\":\t5575424,\n\t\t\t\t\t\"rtt\":\t787360,\n\t\t\t\t\t\"rttvar\":\t8039,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t4.003877,\n\t\t\t\t\"end\":\t5.005097,\n\t\t\t\t\"seconds\":\t1.0012199878692627,\n\t\t\t\t\"bytes\":\t2097152,\n\t\t\t\t\"bits_per_second\":\t16756772.940284863,\n\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}],\n\t\"end\":\t{\n\t\t\"streams\":\t[{\n\t\t\t\t\"sender\":\t{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t5.005097,\n\t\t\t\t\t\"seconds\":\t5.005097,\n\t\t\t\t\t\"bytes\":\t8912896,\n\t\t\t\t\t\"bits_per_second\":\t14246111.114330051,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"max_snd_cwnd\":\t997672,\n\t\t\t\t\t\"max_snd_wnd\":\t5575424,\n\t\t\t\t\t\"max_rtt\":\t787360,\n\t\t\t\t\t\"min_rtt\":\t384420,\n\t\t\t\t\t\"mean_rtt\":\t646040,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t},\n\t\t\t\t\"receiver\":\t{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t5.838049,\n\t\t\t\t\t\"seconds\":\t5.005097,\n\t\t\t\t\t\"bytes\":\t6946816,\n\t\t\t\t\t\"bits_per_second\":\t9519366.48698906,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}\n\t\t\t}],\n\t\t\"sum_sent\":\t{\n\t\t\t\"start\":\t0,\n\t\t\t\"end\":\t5.005097,\n\t\t\t\"seconds\":\t5.005097,\n\t\t\t\"bytes\":\t8912896,\n\t\t\t\"bits_per_second\":\t14246111.114330051,\n\t\t\t\"retransmits\":\t0,\n\t\t\t\"sender\":\ttrue\n\t\t},\n\t\t\"sum_received\":\t{\n\t\t\t\"start\":\t0,\n\t\t\t\"end\":\t5.838049,\n\t\t\t\"seconds\":\t5.838049,\n\t\t\t\"bytes\":\t6946816,\n\t\t\t\"bits_per_second\":\t9519366.48698906,\n\t\t\t\"sender\":\ttrue\n\t\t},\n\t\t\"cpu_utilization_percent\":\t{\n\t\t\t\"host_total\":\t0.12642058469670139,\n\t\t\t\"host_user\":\t0.061104280713185369,\n\t\t\t\"host_system\":\t0.068430406496177543,\n\t\t\t\"remote_total\":\t0.801960099491767,\n\t\t\t\"remote_user\":\t0.0045562995037230622,\n\t\t\t\"remote_system\":\t0.79742092893354666\n\t\t},\n\t\t\"sender_tcp_congestion\":\t\"cubic\",\n\t\t\"receiver_tcp_congestion\":\t\"cubic\"\n\t}\n}"
-    },
-    {
-      "command": "docker exec linux-client traceroute -n -m 5 172.31.0.10",
-      "elapsed_seconds": 0.085,
-      "returncode": 0,
-      "stderr": "",
-      "stdout": "traceroute to 172.31.0.10 (172.31.0.10), 5 hops max, 60 byte packets\n 1  172.30.0.254  0.049 ms  0.010 ms  0.007 ms\n 2  172.31.0.10  0.089 ms  0.124 ms  0.499 ms"
-    },
-    {
-      "command": "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
-      "elapsed_seconds": 0.076,
-      "returncode": 0,
-      "stderr": "",
-      "stdout": ""
-    }
-  ],
-  "scenario": {
-    "capture": {
-      "duration_seconds": 10,
-      "enabled": false,
-      "interface": "eth0"
-    },
-    "description": "Forwarding path with a router egress rate limit for throughput validation.",
-    "fault": {
-      "bandwidth_mbit": 10.0,
-      "delay_ms": null,
-      "enabled": true,
-      "interface": "eth1",
-      "loss_percent": null
-    },
-    "name": "bandwidth_limit",
-    "target": {
-      "expected_hops": [
-        "172.30.0.254",
-        "172.31.0.10"
+      "engineering_interpretation": "Scenario 'baseline' met the configured validation thresholds for this lab topology. Results should be interpreted as controlled container-lab evidence, not as a substitute for production network monitoring.",
+      "fault_commands": [
+        "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
+        "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true"
       ],
-      "host": "172.31.0.10"
-    },
-    "tests": {
-      "iperf3": {
-        "duration_seconds": 5,
-        "reverse": false
+      "fault_injection": {
+        "bandwidth_mbit": null,
+        "delay_ms": null,
+        "enabled": false,
+        "interface": "eth1",
+        "loss_percent": null
       },
-      "ping": {
-        "count": 5,
-        "timeout_seconds": 2
+      "generated_at": "2026-05-25T12:46:42.163730+00:00",
+      "raw_commands": [
+        {
+          "command": "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
+          "elapsed_seconds": 0.063,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": ""
+        },
+        {
+          "command": "docker exec linux-client ping -c 5 -W 2 172.31.0.10",
+          "elapsed_seconds": 4.159,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "PING 172.31.0.10 (172.31.0.10) 56(84) bytes of data.\n64 bytes from 172.31.0.10: icmp_seq=1 ttl=63 time=0.178 ms\n64 bytes from 172.31.0.10: icmp_seq=2 ttl=63 time=0.191 ms\n64 bytes from 172.31.0.10: icmp_seq=3 ttl=63 time=0.111 ms\n64 bytes from 172.31.0.10: icmp_seq=4 ttl=63 time=0.242 ms\n64 bytes from 172.31.0.10: icmp_seq=5 ttl=63 time=0.119 ms\n\n--- 172.31.0.10 ping statistics ---\n5 packets transmitted, 5 received, 0% packet loss, time 4087ms\nrtt min/avg/max/mdev = 0.111/0.168/0.242/0.048 ms"
+        },
+        {
+          "command": "docker exec linux-client iperf3 -c 172.31.0.10 -t 3 -J",
+          "elapsed_seconds": 3.085,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "{\n\t\"start\":\t{\n\t\t\"connected\":\t[{\n\t\t\t\t\"socket\":\t5,\n\t\t\t\t\"local_host\":\t\"172.30.0.10\",\n\t\t\t\t\"local_port\":\t43110,\n\t\t\t\t\"remote_host\":\t\"172.31.0.10\",\n\t\t\t\t\"remote_port\":\t5201\n\t\t\t}],\n\t\t\"version\":\t\"iperf 3.18\",\n\t\t\"system_info\":\t\"Linux 73ce4c8f25dd 6.12.76-linuxkit #1 SMP Fri May  1 14:35:41 UTC 2026 aarch64\",\n\t\t\"timestamp\":\t{\n\t\t\t\"time\":\t\"Mon, 25 May 2026 12:46:39 GMT\",\n\t\t\t\"timesecs\":\t1779713199\n\t\t},\n\t\t\"connecting_to\":\t{\n\t\t\t\"host\":\t\"172.31.0.10\",\n\t\t\t\"port\":\t5201\n\t\t},\n\t\t\"cookie\":\t\"jhxgzzsbtg4vi56s45lvzyib2knzib4vsjuk\",\n\t\t\"tcp_mss_default\":\t1448,\n\t\t\"target_bitrate\":\t0,\n\t\t\"fq_rate\":\t0,\n\t\t\"sock_bufsize\":\t0,\n\t\t\"sndbuf_actual\":\t16384,\n\t\t\"rcvbuf_actual\":\t131072,\n\t\t\"test_start\":\t{\n\t\t\t\"protocol\":\t\"TCP\",\n\t\t\t\"num_streams\":\t1,\n\t\t\t\"blksize\":\t131072,\n\t\t\t\"omit\":\t0,\n\t\t\t\"duration\":\t3,\n\t\t\t\"bytes\":\t0,\n\t\t\t\"blocks\":\t0,\n\t\t\t\"reverse\":\t0,\n\t\t\t\"tos\":\t0,\n\t\t\t\"target_bitrate\":\t0,\n\t\t\t\"bidir\":\t0,\n\t\t\t\"fqrate\":\t0,\n\t\t\t\"interval\":\t1\n\t\t}\n\t},\n\t\"intervals\":\t[{\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t1.00615,\n\t\t\t\t\t\"seconds\":\t1.0061500072479248,\n\t\t\t\t\t\"bytes\":\t5751177216,\n\t\t\t\t\t\"bits_per_second\":\t45728189034.006386,\n\t\t\t\t\t\"retransmits\":\t1,\n\t\t\t\t\t\"snd_cwnd\":\t2286392,\n\t\t\t\t\t\"snd_wnd\":\t5520256,\n\t\t\t\t\t\"rtt\":\t38,\n\t\t\t\t\t\"rttvar\":\t11,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t0,\n\t\t\t\t\"end\":\t1.00615,\n\t\t\t\t\"seconds\":\t1.0061500072479248,\n\t\t\t\t\"bytes\":\t5751177216,\n\t\t\t\t\"bits_per_second\":\t45728189034.006386,\n\t\t\t\t\"retransmits\":\t1,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}, {\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t1.00615,\n\t\t\t\t\t\"end\":\t2.005832,\n\t\t\t\t\t\"seconds\":\t0.99968200922012329,\n\t\t\t\t\t\"bytes\":\t5305532416,\n\t\t\t\t\t\"bits_per_second\":\t42457760504.3746,\n\t\t\t\t\t\"retransmits\":\t1003,\n\t\t\t\t\t\"snd_cwnd\":\t2297976,\n\t\t\t\t\t\"snd_wnd\":\t5169280,\n\t\t\t\t\t\"rtt\":\t38,\n\t\t\t\t\t\"rttvar\":\t18,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t1.00615,\n\t\t\t\t\"end\":\t2.005832,\n\t\t\t\t\"seconds\":\t0.99968200922012329,\n\t\t\t\t\"bytes\":\t5305532416,\n\t\t\t\t\"bits_per_second\":\t42457760504.3746,\n\t\t\t\t\"retransmits\":\t1003,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}, {\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t2.005832,\n\t\t\t\t\t\"end\":\t3.006914,\n\t\t\t\t\t\"seconds\":\t1.0010819435119629,\n\t\t\t\t\t\"bytes\":\t5606473728,\n\t\t\t\t\t\"bits_per_second\":\t44803315167.839729,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"snd_cwnd\":\t2313904,\n\t\t\t\t\t\"snd_wnd\":\t5461760,\n\t\t\t\t\t\"rtt\":\t68,\n\t\t\t\t\t\"rttvar\":\t57,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t2.005832,\n\t\t\t\t\"end\":\t3.006914,\n\t\t\t\t\"seconds\":\t1.0010819435119629,\n\t\t\t\t\"bytes\":\t5606473728,\n\t\t\t\t\"bits_per_second\":\t44803315167.839729,\n\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}],\n\t\"end\":\t{\n\t\t\"streams\":\t[{\n\t\t\t\t\"sender\":\t{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t3.006914,\n\t\t\t\t\t\"seconds\":\t3.006914,\n\t\t\t\t\t\"bytes\":\t16674455552,\n\t\t\t\t\t\"bits_per_second\":\t44362972940.363441,\n\t\t\t\t\t\"retransmits\":\t1004,\n\t\t\t\t\t\"max_snd_cwnd\":\t2313904,\n\t\t\t\t\t\"max_snd_wnd\":\t5520256,\n\t\t\t\t\t\"max_rtt\":\t68,\n\t\t\t\t\t\"min_rtt\":\t38,\n\t\t\t\t\t\"mean_rtt\":\t48,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t},\n\t\t\t\t\"receiver\":\t{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t3.007345,\n\t\t\t\t\t\"seconds\":\t3.006914,\n\t\t\t\t\t\"bytes\":\t16674586624,\n\t\t\t\t\t\"bits_per_second\":\t44356963697.8797,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}\n\t\t\t}],\n\t\t\"sum_sent\":\t{\n\t\t\t\"start\":\t0,\n\t\t\t\"end\":\t3.006914,\n\t\t\t\"seconds\":\t3.006914,\n\t\t\t\"bytes\":\t16674455552,\n\t\t\t\"bits_per_second\":\t44362972940.363441,\n\t\t\t\"retransmits\":\t1004,\n\t\t\t\"sender\":\ttrue\n\t\t},\n\t\t\"sum_received\":\t{\n\t\t\t\"start\":\t0,\n\t\t\t\"end\":\t3.007345,\n\t\t\t\"seconds\":\t3.007345,\n\t\t\t\"bytes\":\t16674586624,\n\t\t\t\"bits_per_second\":\t44356963697.8797,\n\t\t\t\"sender\":\ttrue\n\t\t},\n\t\t\"cpu_utilization_percent\":\t{\n\t\t\t\"host_total\":\t98.7379666061583,\n\t\t\t\"host_user\":\t1.1081641763609149,\n\t\t\t\"host_system\":\t97.6298024297974,\n\t\t\t\"remote_total\":\t66.417200745637857,\n\t\t\t\"remote_user\":\t1.1532049061003047,\n\t\t\t\"remote_system\":\t65.26396258775975\n\t\t},\n\t\t\"sender_tcp_congestion\":\t\"cubic\",\n\t\t\"receiver_tcp_congestion\":\t\"cubic\"\n\t}\n}"
+        },
+        {
+          "command": "docker exec linux-client traceroute -n -m 5 172.31.0.10",
+          "elapsed_seconds": 0.069,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "traceroute to 172.31.0.10 (172.31.0.10), 5 hops max, 60 byte packets\n 1  172.30.0.254  0.218 ms  0.161 ms  0.150 ms\n 2  172.31.0.10  0.141 ms  0.123 ms  0.111 ms"
+        },
+        {
+          "command": "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
+          "elapsed_seconds": 0.067,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": ""
+        }
+      ],
+      "scenario": {
+        "capture": {
+          "duration_seconds": 10,
+          "enabled": false,
+          "interface": "eth0"
+        },
+        "description": "Nominal forwarding path with no injected impairment.",
+        "fault": {
+          "bandwidth_mbit": null,
+          "delay_ms": null,
+          "enabled": false,
+          "interface": "eth1",
+          "loss_percent": null
+        },
+        "name": "baseline",
+        "target": {
+          "expected_hops": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ],
+          "host": "172.31.0.10"
+        },
+        "tests": {
+          "iperf3": {
+            "duration_seconds": 3,
+            "reverse": false
+          },
+          "ping": {
+            "count": 5,
+            "timeout_seconds": 2
+          },
+          "traceroute": {
+            "max_hops": 5
+          }
+        },
+        "thresholds": {
+          "max_avg_latency_ms": 10.0,
+          "max_packet_loss_percent": 0.0,
+          "max_throughput_mbps": null,
+          "min_throughput_mbps": 100.0,
+          "require_expected_hops": true
+        }
       },
-      "traceroute": {
-        "max_hops": 5
-      }
+      "status": "pass",
+      "test_results": {
+        "iperf3": {
+          "retransmits": null,
+          "seconds": 3.007345,
+          "throughput_mbps": 44356.9636978797
+        },
+        "ping": {
+          "avg_latency_ms": 0.168,
+          "max_latency_ms": 0.242,
+          "mdev_latency_ms": 0.048,
+          "min_latency_ms": 0.111,
+          "packet_loss_percent": 0.0,
+          "received": 5,
+          "transmitted": 5
+        },
+        "traceroute": {
+          "hops": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ]
+        }
+      },
+      "topology": {
+        "client": "linux-client",
+        "client_network": "172.30.0.0/24",
+        "router": "linux-router",
+        "router_client_ip": "172.30.0.254",
+        "router_server_ip": "172.31.0.254",
+        "server": "linux-server",
+        "server_ip": "172.31.0.10",
+        "server_network": "172.31.0.0/24"
+      },
+      "troubleshooting_recommendations": [
+        "Keep the scenario file with the report so thresholds remain auditable.",
+        "Repeat the run after Docker or host networking changes to confirm reproducibility."
+      ],
+      "validations": [
+        {
+          "detail": "Ping packet loss must remain within the scenario threshold.",
+          "name": "packet_loss",
+          "observed": 0.0,
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "detail": "Average ICMP round-trip latency must remain within threshold.",
+          "name": "avg_latency",
+          "observed": 0.168,
+          "passed": true,
+          "threshold": 10.0
+        },
+        {
+          "detail": "iperf3 measured throughput must meet the minimum target.",
+          "name": "min_throughput",
+          "observed": 44356.964,
+          "passed": true,
+          "threshold": 100.0
+        },
+        {
+          "detail": "Traceroute must include the expected routed path in order.",
+          "name": "expected_hops",
+          "observed": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ],
+          "passed": true,
+          "threshold": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ]
+        }
+      ]
     },
-    "thresholds": {
-      "max_avg_latency_ms": 50.0,
-      "max_packet_loss_percent": 1.0,
-      "max_throughput_mbps": 15.0,
-      "min_throughput_mbps": 5.0,
-      "require_expected_hops": true
-    }
-  },
-  "status": "pass",
-  "test_results": {
-    "iperf3": {
-      "retransmits": null,
-      "seconds": 5.838049,
-      "throughput_mbps": 9.51936648698906
+    {
+      "engineering_interpretation": "Scenario 'latency_degradation' met the configured validation thresholds for this lab topology. Results should be interpreted as controlled container-lab evidence, not as a substitute for production network monitoring.",
+      "fault_commands": [
+        "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
+        "docker exec linux-router sh -lc tc qdisc replace dev eth1 root netem delay 80ms",
+        "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true"
+      ],
+      "fault_injection": {
+        "bandwidth_mbit": null,
+        "delay_ms": 80.0,
+        "enabled": true,
+        "interface": "eth1",
+        "loss_percent": null
+      },
+      "generated_at": "2026-05-25T12:46:50.719800+00:00",
+      "raw_commands": [
+        {
+          "command": "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
+          "elapsed_seconds": 0.064,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": ""
+        },
+        {
+          "command": "docker exec linux-router sh -lc tc qdisc replace dev eth1 root netem delay 80ms",
+          "elapsed_seconds": 0.06,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": ""
+        },
+        {
+          "command": "docker exec linux-client ping -c 5 -W 3 172.31.0.10",
+          "elapsed_seconds": 4.191,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "PING 172.31.0.10 (172.31.0.10) 56(84) bytes of data.\n64 bytes from 172.31.0.10: icmp_seq=1 ttl=63 time=85.1 ms\n64 bytes from 172.31.0.10: icmp_seq=2 ttl=63 time=87.1 ms\n64 bytes from 172.31.0.10: icmp_seq=3 ttl=63 time=83.1 ms\n64 bytes from 172.31.0.10: icmp_seq=4 ttl=63 time=87.5 ms\n64 bytes from 172.31.0.10: icmp_seq=5 ttl=63 time=86.3 ms\n\n--- 172.31.0.10 ping statistics ---\n5 packets transmitted, 5 received, 0% packet loss, time 4027ms\nrtt min/avg/max/mdev = 83.140/85.826/87.536/1.579 ms"
+        },
+        {
+          "command": "docker exec linux-client iperf3 -c 172.31.0.10 -t 3 -J",
+          "elapsed_seconds": 3.696,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "{\n\t\"start\":\t{\n\t\t\"connected\":\t[{\n\t\t\t\t\"socket\":\t5,\n\t\t\t\t\"local_host\":\t\"172.30.0.10\",\n\t\t\t\t\"local_port\":\t40106,\n\t\t\t\t\"remote_host\":\t\"172.31.0.10\",\n\t\t\t\t\"remote_port\":\t5201\n\t\t\t}],\n\t\t\"version\":\t\"iperf 3.18\",\n\t\t\"system_info\":\t\"Linux 73ce4c8f25dd 6.12.76-linuxkit #1 SMP Fri May  1 14:35:41 UTC 2026 aarch64\",\n\t\t\"timestamp\":\t{\n\t\t\t\"time\":\t\"Mon, 25 May 2026 12:46:47 GMT\",\n\t\t\t\"timesecs\":\t1779713207\n\t\t},\n\t\t\"connecting_to\":\t{\n\t\t\t\"host\":\t\"172.31.0.10\",\n\t\t\t\"port\":\t5201\n\t\t},\n\t\t\"cookie\":\t\"uvbf572mpxhqhumd5mrh74qxw7nelqtmtlcu\",\n\t\t\"tcp_mss_default\":\t1448,\n\t\t\"target_bitrate\":\t0,\n\t\t\"fq_rate\":\t0,\n\t\t\"sock_bufsize\":\t0,\n\t\t\"sndbuf_actual\":\t16384,\n\t\t\"rcvbuf_actual\":\t131072,\n\t\t\"test_start\":\t{\n\t\t\t\"protocol\":\t\"TCP\",\n\t\t\t\"num_streams\":\t1,\n\t\t\t\"blksize\":\t131072,\n\t\t\t\"omit\":\t0,\n\t\t\t\"duration\":\t3,\n\t\t\t\"bytes\":\t0,\n\t\t\t\"blocks\":\t0,\n\t\t\t\"reverse\":\t0,\n\t\t\t\"tos\":\t0,\n\t\t\t\"target_bitrate\":\t0,\n\t\t\t\"bidir\":\t0,\n\t\t\t\"fqrate\":\t0,\n\t\t\t\"interval\":\t1\n\t\t}\n\t},\n\t\"intervals\":\t[{\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t1.002387,\n\t\t\t\t\t\"seconds\":\t1.0023870468139648,\n\t\t\t\t\t\"bytes\":\t9043968,\n\t\t\t\t\t\"bits_per_second\":\t72179448.27795437,\n\t\t\t\t\t\"retransmits\":\t8,\n\t\t\t\t\t\"snd_cwnd\":\t3207320,\n\t\t\t\t\t\"snd_wnd\":\t863616,\n\t\t\t\t\t\"rtt\":\t86171,\n\t\t\t\t\t\"rttvar\":\t1684,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t0,\n\t\t\t\t\"end\":\t1.002387,\n\t\t\t\t\"seconds\":\t1.0023870468139648,\n\t\t\t\t\"bytes\":\t9043968,\n\t\t\t\t\"bits_per_second\":\t72179448.27795437,\n\t\t\t\t\"retransmits\":\t8,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}, {\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t1.002387,\n\t\t\t\t\t\"end\":\t2.004798,\n\t\t\t\t\t\"seconds\":\t1.0024110078811646,\n\t\t\t\t\t\"bytes\":\t9830400,\n\t\t\t\t\t\"bits_per_second\":\t78454046.675156951,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"snd_cwnd\":\t3207320,\n\t\t\t\t\t\"snd_wnd\":\t822912,\n\t\t\t\t\t\"rtt\":\t84547,\n\t\t\t\t\t\"rttvar\":\t1062,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t1.002387,\n\t\t\t\t\"end\":\t2.004798,\n\t\t\t\t\"seconds\":\t1.0024110078811646,\n\t\t\t\t\"bytes\":\t9830400,\n\t\t\t\t\"bits_per_second\":\t78454046.675156951,\n\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}, {\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t2.004798,\n\t\t\t\t\t\"end\":\t3.005388,\n\t\t\t\t\t\"seconds\":\t1.0005899667739868,\n\t\t\t\t\t\"bytes\":\t9830400,\n\t\t\t\t\t\"bits_per_second\":\t78596830.481475249,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"snd_cwnd\":\t3207320,\n\t\t\t\t\t\"snd_wnd\":\t821376,\n\t\t\t\t\t\"rtt\":\t85441,\n\t\t\t\t\t\"rttvar\":\t551,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t2.004798,\n\t\t\t\t\"end\":\t3.005388,\n\t\t\t\t\"seconds\":\t1.0005899667739868,\n\t\t\t\t\"bytes\":\t9830400,\n\t\t\t\t\"bits_per_second\":\t78596830.481475249,\n\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}],\n\t\"end\":\t{\n\t\t\"streams\":\t[{\n\t\t\t\t\"sender\":\t{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t3.005388,\n\t\t\t\t\t\"seconds\":\t3.005388,\n\t\t\t\t\t\"bytes\":\t28704768,\n\t\t\t\t\t\"bits_per_second\":\t76408817.763297126,\n\t\t\t\t\t\"retransmits\":\t8,\n\t\t\t\t\t\"max_snd_cwnd\":\t3207320,\n\t\t\t\t\t\"max_snd_wnd\":\t863616,\n\t\t\t\t\t\"max_rtt\":\t86171,\n\t\t\t\t\t\"min_rtt\":\t84547,\n\t\t\t\t\t\"mean_rtt\":\t85386,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t},\n\t\t\t\t\"receiver\":\t{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t3.087742,\n\t\t\t\t\t\"seconds\":\t3.005388,\n\t\t\t\t\t\"bytes\":\t25034752,\n\t\t\t\t\t\"bits_per_second\":\t64862289.66021125,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}\n\t\t\t}],\n\t\t\"sum_sent\":\t{\n\t\t\t\"start\":\t0,\n\t\t\t\"end\":\t3.005388,\n\t\t\t\"seconds\":\t3.005388,\n\t\t\t\"bytes\":\t28704768,\n\t\t\t\"bits_per_second\":\t76408817.763297126,\n\t\t\t\"retransmits\":\t8,\n\t\t\t\"sender\":\ttrue\n\t\t},\n\t\t\"sum_received\":\t{\n\t\t\t\"start\":\t0,\n\t\t\t\"end\":\t3.087742,\n\t\t\t\"seconds\":\t3.087742,\n\t\t\t\"bytes\":\t25034752,\n\t\t\t\"bits_per_second\":\t64862289.66021125,\n\t\t\t\"sender\":\ttrue\n\t\t},\n\t\t\"cpu_utilization_percent\":\t{\n\t\t\t\"host_total\":\t0.57813773887490261,\n\t\t\t\"host_user\":\t0.12937097395558023,\n\t\t\t\"host_system\":\t0.44876676491932233,\n\t\t\t\"remote_total\":\t0.60436149379818627,\n\t\t\t\"remote_user\":\t0.035299219174794935,\n\t\t\t\"remote_system\":\t0.56912704383288637\n\t\t},\n\t\t\"sender_tcp_congestion\":\t\"cubic\",\n\t\t\"receiver_tcp_congestion\":\t\"cubic\"\n\t}\n}"
+        },
+        {
+          "command": "docker exec linux-client traceroute -n -m 5 172.31.0.10",
+          "elapsed_seconds": 0.15,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "traceroute to 172.31.0.10 (172.31.0.10), 5 hops max, 60 byte packets\n 1  172.30.0.254  0.044 ms  0.022 ms  0.006 ms\n 2  172.31.0.10  84.230 ms  84.218 ms  84.211 ms"
+        },
+        {
+          "command": "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
+          "elapsed_seconds": 0.072,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": ""
+        }
+      ],
+      "scenario": {
+        "capture": {
+          "duration_seconds": 10,
+          "enabled": false,
+          "interface": "eth0"
+        },
+        "description": "Forwarding path with injected one-way delay on the router egress toward the server network.",
+        "fault": {
+          "bandwidth_mbit": null,
+          "delay_ms": 80.0,
+          "enabled": true,
+          "interface": "eth1",
+          "loss_percent": null
+        },
+        "name": "latency_degradation",
+        "target": {
+          "expected_hops": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ],
+          "host": "172.31.0.10"
+        },
+        "tests": {
+          "iperf3": {
+            "duration_seconds": 3,
+            "reverse": false
+          },
+          "ping": {
+            "count": 5,
+            "timeout_seconds": 3
+          },
+          "traceroute": {
+            "max_hops": 5
+          }
+        },
+        "thresholds": {
+          "max_avg_latency_ms": 200.0,
+          "max_packet_loss_percent": 0.0,
+          "max_throughput_mbps": null,
+          "min_throughput_mbps": 50.0,
+          "require_expected_hops": true
+        }
+      },
+      "status": "pass",
+      "test_results": {
+        "iperf3": {
+          "retransmits": null,
+          "seconds": 3.087742,
+          "throughput_mbps": 64.86228966021125
+        },
+        "ping": {
+          "avg_latency_ms": 85.826,
+          "max_latency_ms": 87.536,
+          "mdev_latency_ms": 1.579,
+          "min_latency_ms": 83.14,
+          "packet_loss_percent": 0.0,
+          "received": 5,
+          "transmitted": 5
+        },
+        "traceroute": {
+          "hops": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ]
+        }
+      },
+      "topology": {
+        "client": "linux-client",
+        "client_network": "172.30.0.0/24",
+        "router": "linux-router",
+        "router_client_ip": "172.30.0.254",
+        "router_server_ip": "172.31.0.254",
+        "server": "linux-server",
+        "server_ip": "172.31.0.10",
+        "server_network": "172.31.0.0/24"
+      },
+      "troubleshooting_recommendations": [
+        "Keep the scenario file with the report so thresholds remain auditable.",
+        "Repeat the run after Docker or host networking changes to confirm reproducibility."
+      ],
+      "validations": [
+        {
+          "detail": "Ping packet loss must remain within the scenario threshold.",
+          "name": "packet_loss",
+          "observed": 0.0,
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "detail": "Average ICMP round-trip latency must remain within threshold.",
+          "name": "avg_latency",
+          "observed": 85.826,
+          "passed": true,
+          "threshold": 200.0
+        },
+        {
+          "detail": "iperf3 measured throughput must meet the minimum target.",
+          "name": "min_throughput",
+          "observed": 64.862,
+          "passed": true,
+          "threshold": 50.0
+        },
+        {
+          "detail": "Traceroute must include the expected routed path in order.",
+          "name": "expected_hops",
+          "observed": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ],
+          "passed": true,
+          "threshold": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ]
+        }
+      ]
     },
-    "ping": {
-      "avg_latency_ms": 0.726,
-      "max_latency_ms": 1.236,
-      "mdev_latency_ms": 0.362,
-      "min_latency_ms": 0.234,
-      "packet_loss_percent": 0.0,
-      "received": 5,
-      "transmitted": 5
+    {
+      "engineering_interpretation": "Scenario 'packet_loss' met the configured validation thresholds for this lab topology. Results should be interpreted as controlled container-lab evidence, not as a substitute for production network monitoring.",
+      "fault_commands": [
+        "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
+        "docker exec linux-router sh -lc tc qdisc replace dev eth1 root netem loss 10%",
+        "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true"
+      ],
+      "fault_injection": {
+        "bandwidth_mbit": null,
+        "delay_ms": null,
+        "enabled": true,
+        "interface": "eth1",
+        "loss_percent": 10.0
+      },
+      "generated_at": "2026-05-25T12:47:15.202015+00:00",
+      "raw_commands": [
+        {
+          "command": "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
+          "elapsed_seconds": 0.064,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": ""
+        },
+        {
+          "command": "docker exec linux-router sh -lc tc qdisc replace dev eth1 root netem loss 10%",
+          "elapsed_seconds": 0.077,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": ""
+        },
+        {
+          "command": "docker exec linux-client ping -c 20 -W 2 172.31.0.10",
+          "elapsed_seconds": 20.529,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "PING 172.31.0.10 (172.31.0.10) 56(84) bytes of data.\n64 bytes from 172.31.0.10: icmp_seq=1 ttl=63 time=0.066 ms\n64 bytes from 172.31.0.10: icmp_seq=2 ttl=63 time=0.247 ms\n64 bytes from 172.31.0.10: icmp_seq=3 ttl=63 time=0.212 ms\n64 bytes from 172.31.0.10: icmp_seq=4 ttl=63 time=0.122 ms\n64 bytes from 172.31.0.10: icmp_seq=5 ttl=63 time=0.139 ms\n64 bytes from 172.31.0.10: icmp_seq=7 ttl=63 time=0.142 ms\n64 bytes from 172.31.0.10: icmp_seq=8 ttl=63 time=0.518 ms\n64 bytes from 172.31.0.10: icmp_seq=9 ttl=63 time=0.230 ms\n64 bytes from 172.31.0.10: icmp_seq=10 ttl=63 time=0.240 ms\n64 bytes from 172.31.0.10: icmp_seq=11 ttl=63 time=0.181 ms\n64 bytes from 172.31.0.10: icmp_seq=12 ttl=63 time=0.253 ms\n64 bytes from 172.31.0.10: icmp_seq=13 ttl=63 time=0.160 ms\n64 bytes from 172.31.0.10: icmp_seq=14 ttl=63 time=0.351 ms\n64 bytes from 172.31.0.10: icmp_seq=16 ttl=63 time=0.167 ms\n64 bytes from 172.31.0.10: icmp_seq=17 ttl=63 time=0.060 ms\n64 bytes from 172.31.0.10: icmp_seq=18 ttl=63 time=0.097 ms\n64 bytes from 172.31.0.10: icmp_seq=19 ttl=63 time=0.117 ms\n64 bytes from 172.31.0.10: icmp_seq=20 ttl=63 time=0.120 ms\n\n--- 172.31.0.10 ping statistics ---\n20 packets transmitted, 18 received, 10% packet loss, time 19452ms\nrtt min/avg/max/mdev = 0.060/0.190/0.518/0.107 ms"
+        },
+        {
+          "command": "docker exec linux-client iperf3 -c 172.31.0.10 -t 3 -J",
+          "elapsed_seconds": 3.301,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "{\n\t\"start\":\t{\n\t\t\"connected\":\t[{\n\t\t\t\t\"socket\":\t5,\n\t\t\t\t\"local_host\":\t\"172.30.0.10\",\n\t\t\t\t\"local_port\":\t38646,\n\t\t\t\t\"remote_host\":\t\"172.31.0.10\",\n\t\t\t\t\"remote_port\":\t5201\n\t\t\t}],\n\t\t\"version\":\t\"iperf 3.18\",\n\t\t\"system_info\":\t\"Linux 73ce4c8f25dd 6.12.76-linuxkit #1 SMP Fri May  1 14:35:41 UTC 2026 aarch64\",\n\t\t\"timestamp\":\t{\n\t\t\t\"time\":\t\"Mon, 25 May 2026 12:47:11 GMT\",\n\t\t\t\"timesecs\":\t1779713231\n\t\t},\n\t\t\"connecting_to\":\t{\n\t\t\t\"host\":\t\"172.31.0.10\",\n\t\t\t\"port\":\t5201\n\t\t},\n\t\t\"cookie\":\t\"4p2ntzw6esbvuo67og5outhzwbqh45sauzln\",\n\t\t\"tcp_mss_default\":\t1448,\n\t\t\"target_bitrate\":\t0,\n\t\t\"fq_rate\":\t0,\n\t\t\"sock_bufsize\":\t0,\n\t\t\"sndbuf_actual\":\t16384,\n\t\t\"rcvbuf_actual\":\t131072,\n\t\t\"test_start\":\t{\n\t\t\t\"protocol\":\t\"TCP\",\n\t\t\t\"num_streams\":\t1,\n\t\t\t\"blksize\":\t131072,\n\t\t\t\"omit\":\t0,\n\t\t\t\"duration\":\t3,\n\t\t\t\"bytes\":\t0,\n\t\t\t\"blocks\":\t0,\n\t\t\t\"reverse\":\t0,\n\t\t\t\"tos\":\t0,\n\t\t\t\"target_bitrate\":\t0,\n\t\t\t\"bidir\":\t0,\n\t\t\t\"fqrate\":\t0,\n\t\t\t\"interval\":\t1\n\t\t}\n\t},\n\t\"intervals\":\t[{\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t1.005358,\n\t\t\t\t\t\"seconds\":\t1.0053579807281494,\n\t\t\t\t\t\"bytes\":\t3670016,\n\t\t\t\t\t\"bits_per_second\":\t29203655.377296925,\n\t\t\t\t\t\"retransmits\":\t293,\n\t\t\t\t\t\"snd_cwnd\":\t2896,\n\t\t\t\t\t\"snd_wnd\":\t3445120,\n\t\t\t\t\t\"rtt\":\t158,\n\t\t\t\t\t\"rttvar\":\t203,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t0,\n\t\t\t\t\"end\":\t1.005358,\n\t\t\t\t\"seconds\":\t1.0053579807281494,\n\t\t\t\t\"bytes\":\t3670016,\n\t\t\t\t\"bits_per_second\":\t29203655.377296925,\n\t\t\t\t\"retransmits\":\t293,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}, {\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t1.005358,\n\t\t\t\t\t\"end\":\t2.005869,\n\t\t\t\t\t\"seconds\":\t1.0005110502243042,\n\t\t\t\t\t\"bytes\":\t917504,\n\t\t\t\t\t\"bits_per_second\":\t7336282.7910340829,\n\t\t\t\t\t\"retransmits\":\t61,\n\t\t\t\t\t\"snd_cwnd\":\t1448,\n\t\t\t\t\t\"snd_wnd\":\t3446528,\n\t\t\t\t\t\"rtt\":\t1742,\n\t\t\t\t\t\"rttvar\":\t2486,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t1.005358,\n\t\t\t\t\"end\":\t2.005869,\n\t\t\t\t\"seconds\":\t1.0005110502243042,\n\t\t\t\t\"bytes\":\t917504,\n\t\t\t\t\"bits_per_second\":\t7336282.7910340829,\n\t\t\t\t\"retransmits\":\t61,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}, {\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t2.005869,\n\t\t\t\t\t\"end\":\t3.003765,\n\t\t\t\t\t\"seconds\":\t0.99789601564407349,\n\t\t\t\t\t\"bytes\":\t262144,\n\t\t\t\t\t\"bits_per_second\":\t2101573.6781416368,\n\t\t\t\t\t\"retransmits\":\t48,\n\t\t\t\t\t\"snd_cwnd\":\t2896,\n\t\t\t\t\t\"snd_wnd\":\t3446528,\n\t\t\t\t\t\"rtt\":\t1014,\n\t\t\t\t\t\"rttvar\":\t1548,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t2.005869,\n\t\t\t\t\"end\":\t3.003765,\n\t\t\t\t\"seconds\":\t0.99789601564407349,\n\t\t\t\t\"bytes\":\t262144,\n\t\t\t\t\"bits_per_second\":\t2101573.6781416368,\n\t\t\t\t\"retransmits\":\t48,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}],\n\t\"end\":\t{\n\t\t\"streams\":\t[{\n\t\t\t\t\"sender\":\t{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t3.003765,\n\t\t\t\t\t\"seconds\":\t3.003765,\n\t\t\t\t\t\"bytes\":\t4849664,\n\t\t\t\t\t\"bits_per_second\":\t12916227.467861168,\n\t\t\t\t\t\"retransmits\":\t402,\n\t\t\t\t\t\"max_snd_cwnd\":\t2896,\n\t\t\t\t\t\"max_snd_wnd\":\t3446528,\n\t\t\t\t\t\"max_rtt\":\t1742,\n\t\t\t\t\t\"min_rtt\":\t158,\n\t\t\t\t\t\"mean_rtt\":\t971,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t},\n\t\t\t\t\"receiver\":\t{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t3.003997,\n\t\t\t\t\t\"seconds\":\t3.003765,\n\t\t\t\t\t\"bytes\":\t4587520,\n\t\t\t\t\t\"bits_per_second\":\t12217109.404569978,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}\n\t\t\t}],\n\t\t\"sum_sent\":\t{\n\t\t\t\"start\":\t0,\n\t\t\t\"end\":\t3.003765,\n\t\t\t\"seconds\":\t3.003765,\n\t\t\t\"bytes\":\t4849664,\n\t\t\t\"bits_per_second\":\t12916227.467861168,\n\t\t\t\"retransmits\":\t402,\n\t\t\t\"sender\":\ttrue\n\t\t},\n\t\t\"sum_received\":\t{\n\t\t\t\"start\":\t0,\n\t\t\t\"end\":\t3.003997,\n\t\t\t\"seconds\":\t3.003997,\n\t\t\t\"bytes\":\t4587520,\n\t\t\t\"bits_per_second\":\t12217109.404569978,\n\t\t\t\"sender\":\ttrue\n\t\t},\n\t\t\"cpu_utilization_percent\":\t{\n\t\t\t\"host_total\":\t0.21587352190148021,\n\t\t\t\"host_user\":\t0.038915763250194739,\n\t\t\t\"host_system\":\t0.1770200238724858,\n\t\t\t\"remote_total\":\t0.62539509544041139,\n\t\t\t\"remote_user\":\t0.037150206340102146,\n\t\t\t\"remote_system\":\t0.588244889100309\n\t\t},\n\t\t\"sender_tcp_congestion\":\t\"cubic\",\n\t\t\"receiver_tcp_congestion\":\t\"cubic\"\n\t}\n}"
+        },
+        {
+          "command": "docker exec linux-client traceroute -n -m 5 172.31.0.10",
+          "elapsed_seconds": 0.079,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "traceroute to 172.31.0.10 (172.31.0.10), 5 hops max, 60 byte packets\n 1  172.30.0.254  0.043 ms  0.007 ms  0.029 ms\n 2  172.31.0.10  0.025 ms  0.010 ms  0.010 ms"
+        },
+        {
+          "command": "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
+          "elapsed_seconds": 0.066,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": ""
+        }
+      ],
+      "scenario": {
+        "capture": {
+          "duration_seconds": 10,
+          "enabled": false,
+          "interface": "eth0"
+        },
+        "description": "Forwarding path with controlled packet loss on the router egress toward the server network.",
+        "fault": {
+          "bandwidth_mbit": null,
+          "delay_ms": null,
+          "enabled": true,
+          "interface": "eth1",
+          "loss_percent": 10.0
+        },
+        "name": "packet_loss",
+        "target": {
+          "expected_hops": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ],
+          "host": "172.31.0.10"
+        },
+        "tests": {
+          "iperf3": {
+            "duration_seconds": 3,
+            "reverse": false
+          },
+          "ping": {
+            "count": 20,
+            "timeout_seconds": 2
+          },
+          "traceroute": {
+            "max_hops": 5
+          }
+        },
+        "thresholds": {
+          "max_avg_latency_ms": 50.0,
+          "max_packet_loss_percent": 20.0,
+          "max_throughput_mbps": null,
+          "min_throughput_mbps": 5.0,
+          "require_expected_hops": true
+        }
+      },
+      "status": "pass",
+      "test_results": {
+        "iperf3": {
+          "retransmits": null,
+          "seconds": 3.003997,
+          "throughput_mbps": 12.217109404569978
+        },
+        "ping": {
+          "avg_latency_ms": 0.19,
+          "max_latency_ms": 0.518,
+          "mdev_latency_ms": 0.107,
+          "min_latency_ms": 0.06,
+          "packet_loss_percent": 10.0,
+          "received": 18,
+          "transmitted": 20
+        },
+        "traceroute": {
+          "hops": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ]
+        }
+      },
+      "topology": {
+        "client": "linux-client",
+        "client_network": "172.30.0.0/24",
+        "router": "linux-router",
+        "router_client_ip": "172.30.0.254",
+        "router_server_ip": "172.31.0.254",
+        "server": "linux-server",
+        "server_ip": "172.31.0.10",
+        "server_network": "172.31.0.0/24"
+      },
+      "troubleshooting_recommendations": [
+        "Keep the scenario file with the report so thresholds remain auditable.",
+        "Repeat the run after Docker or host networking changes to confirm reproducibility."
+      ],
+      "validations": [
+        {
+          "detail": "Ping packet loss must remain within the scenario threshold.",
+          "name": "packet_loss",
+          "observed": 10.0,
+          "passed": true,
+          "threshold": 20.0
+        },
+        {
+          "detail": "Average ICMP round-trip latency must remain within threshold.",
+          "name": "avg_latency",
+          "observed": 0.19,
+          "passed": true,
+          "threshold": 50.0
+        },
+        {
+          "detail": "iperf3 measured throughput must meet the minimum target.",
+          "name": "min_throughput",
+          "observed": 12.217,
+          "passed": true,
+          "threshold": 5.0
+        },
+        {
+          "detail": "Traceroute must include the expected routed path in order.",
+          "name": "expected_hops",
+          "observed": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ],
+          "passed": true,
+          "threshold": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ]
+        }
+      ]
     },
-    "traceroute": {
-      "hops": [
-        "172.30.0.254",
-        "172.31.0.10"
+    {
+      "engineering_interpretation": "Scenario 'bandwidth_limit' met the configured validation thresholds for this lab topology. Results should be interpreted as controlled container-lab evidence, not as a substitute for production network monitoring.",
+      "fault_commands": [
+        "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
+        "docker exec linux-router sh -lc tc qdisc replace dev eth1 root netem rate 10mbit",
+        "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true"
+      ],
+      "fault_injection": {
+        "bandwidth_mbit": 10.0,
+        "delay_ms": null,
+        "enabled": true,
+        "interface": "eth1",
+        "loss_percent": null
+      },
+      "generated_at": "2026-05-25T12:47:27.182509+00:00",
+      "raw_commands": [
+        {
+          "command": "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
+          "elapsed_seconds": 0.08,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": ""
+        },
+        {
+          "command": "docker exec linux-router sh -lc tc qdisc replace dev eth1 root netem rate 10mbit",
+          "elapsed_seconds": 0.072,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": ""
+        },
+        {
+          "command": "docker exec linux-client ping -c 5 -W 2 172.31.0.10",
+          "elapsed_seconds": 4.142,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "PING 172.31.0.10 (172.31.0.10) 56(84) bytes of data.\n64 bytes from 172.31.0.10: icmp_seq=1 ttl=63 time=0.283 ms\n64 bytes from 172.31.0.10: icmp_seq=2 ttl=63 time=1.22 ms\n64 bytes from 172.31.0.10: icmp_seq=3 ttl=63 time=1.10 ms\n64 bytes from 172.31.0.10: icmp_seq=4 ttl=63 time=1.57 ms\n64 bytes from 172.31.0.10: icmp_seq=5 ttl=63 time=2.63 ms\n\n--- 172.31.0.10 ping statistics ---\n5 packets transmitted, 5 received, 0% packet loss, time 4062ms\nrtt min/avg/max/mdev = 0.283/1.359/2.626/0.761 ms"
+        },
+        {
+          "command": "docker exec linux-client iperf3 -c 172.31.0.10 -t 5 -J",
+          "elapsed_seconds": 7.116,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "{\n\t\"start\":\t{\n\t\t\"connected\":\t[{\n\t\t\t\t\"socket\":\t5,\n\t\t\t\t\"local_host\":\t\"172.30.0.10\",\n\t\t\t\t\"local_port\":\t54492,\n\t\t\t\t\"remote_host\":\t\"172.31.0.10\",\n\t\t\t\t\"remote_port\":\t5201\n\t\t\t}],\n\t\t\"version\":\t\"iperf 3.18\",\n\t\t\"system_info\":\t\"Linux 73ce4c8f25dd 6.12.76-linuxkit #1 SMP Fri May  1 14:35:41 UTC 2026 aarch64\",\n\t\t\"timestamp\":\t{\n\t\t\t\"time\":\t\"Mon, 25 May 2026 12:47:19 GMT\",\n\t\t\t\"timesecs\":\t1779713239\n\t\t},\n\t\t\"connecting_to\":\t{\n\t\t\t\"host\":\t\"172.31.0.10\",\n\t\t\t\"port\":\t5201\n\t\t},\n\t\t\"cookie\":\t\"yvxb4i36eajdlvri6f7pqhsltvbtihcds6n5\",\n\t\t\"tcp_mss_default\":\t1448,\n\t\t\"target_bitrate\":\t0,\n\t\t\"fq_rate\":\t0,\n\t\t\"sock_bufsize\":\t0,\n\t\t\"sndbuf_actual\":\t16384,\n\t\t\"rcvbuf_actual\":\t131072,\n\t\t\"test_start\":\t{\n\t\t\t\"protocol\":\t\"TCP\",\n\t\t\t\"num_streams\":\t1,\n\t\t\t\"blksize\":\t131072,\n\t\t\t\"omit\":\t0,\n\t\t\t\"duration\":\t5,\n\t\t\t\"bytes\":\t0,\n\t\t\t\"blocks\":\t0,\n\t\t\t\"reverse\":\t0,\n\t\t\t\"tos\":\t0,\n\t\t\t\"target_bitrate\":\t0,\n\t\t\t\"bidir\":\t0,\n\t\t\t\"fqrate\":\t0,\n\t\t\t\"interval\":\t1\n\t\t}\n\t},\n\t\"intervals\":\t[{\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t1.001731,\n\t\t\t\t\t\"seconds\":\t1.0017310380935669,\n\t\t\t\t\t\"bytes\":\t4194304,\n\t\t\t\t\t\"bits_per_second\":\t33496448.3718691,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"snd_cwnd\":\t954232,\n\t\t\t\t\t\"snd_wnd\":\t627968,\n\t\t\t\t\t\"rtt\":\t325553,\n\t\t\t\t\t\"rttvar\":\t94394,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t0,\n\t\t\t\t\"end\":\t1.001731,\n\t\t\t\t\"seconds\":\t1.0017310380935669,\n\t\t\t\t\"bytes\":\t4194304,\n\t\t\t\t\"bits_per_second\":\t33496448.3718691,\n\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}, {\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t1.001731,\n\t\t\t\t\t\"end\":\t2.004122,\n\t\t\t\t\t\"seconds\":\t1.00239098072052,\n\t\t\t\t\t\"bytes\":\t1048576,\n\t\t\t\t\t\"bits_per_second\":\t8368598.8415121781,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"snd_cwnd\":\t1003464,\n\t\t\t\t\t\"snd_wnd\":\t2144768,\n\t\t\t\t\t\"rtt\":\t684307,\n\t\t\t\t\t\"rttvar\":\t123268,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t1.001731,\n\t\t\t\t\"end\":\t2.004122,\n\t\t\t\t\"seconds\":\t1.00239098072052,\n\t\t\t\t\"bytes\":\t1048576,\n\t\t\t\t\"bits_per_second\":\t8368598.8415121781,\n\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}, {\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t2.004122,\n\t\t\t\t\t\"end\":\t3.002261,\n\t\t\t\t\t\"seconds\":\t0.99813902378082275,\n\t\t\t\t\t\"bytes\":\t1179648,\n\t\t\t\t\t\"bits_per_second\":\t9454779.1190982163,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"snd_cwnd\":\t1062832,\n\t\t\t\t\t\"snd_wnd\":\t3333632,\n\t\t\t\t\t\"rtt\":\t832767,\n\t\t\t\t\t\"rttvar\":\t15720,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t2.004122,\n\t\t\t\t\"end\":\t3.002261,\n\t\t\t\t\"seconds\":\t0.99813902378082275,\n\t\t\t\t\"bytes\":\t1179648,\n\t\t\t\t\"bits_per_second\":\t9454779.1190982163,\n\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}, {\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t3.002261,\n\t\t\t\t\t\"end\":\t4.002351,\n\t\t\t\t\t\"seconds\":\t1.0000900030136108,\n\t\t\t\t\t\"bytes\":\t1179648,\n\t\t\t\t\t\"bits_per_second\":\t9436334.70143943,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"snd_cwnd\":\t1123648,\n\t\t\t\t\t\"snd_wnd\":\t3333632,\n\t\t\t\t\t\"rtt\":\t892687,\n\t\t\t\t\t\"rttvar\":\t8704,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t3.002261,\n\t\t\t\t\"end\":\t4.002351,\n\t\t\t\t\"seconds\":\t1.0000900030136108,\n\t\t\t\t\"bytes\":\t1179648,\n\t\t\t\t\"bits_per_second\":\t9436334.70143943,\n\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}, {\n\t\t\t\"streams\":\t[{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t4.002351,\n\t\t\t\t\t\"end\":\t5.005594,\n\t\t\t\t\t\"seconds\":\t1.0032429695129395,\n\t\t\t\t\t\"bytes\":\t1179648,\n\t\t\t\t\t\"bits_per_second\":\t9406678.4286379,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"snd_cwnd\":\t1183016,\n\t\t\t\t\t\"snd_wnd\":\t3358080,\n\t\t\t\t\t\"rtt\":\t931894,\n\t\t\t\t\t\"rttvar\":\t7383,\n\t\t\t\t\t\"pmtu\":\t1500,\n\t\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}],\n\t\t\t\"sum\":\t{\n\t\t\t\t\"start\":\t4.002351,\n\t\t\t\t\"end\":\t5.005594,\n\t\t\t\t\"seconds\":\t1.0032429695129395,\n\t\t\t\t\"bytes\":\t1179648,\n\t\t\t\t\"bits_per_second\":\t9406678.4286379,\n\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\"omitted\":\tfalse,\n\t\t\t\t\"sender\":\ttrue\n\t\t\t}\n\t\t}],\n\t\"end\":\t{\n\t\t\"streams\":\t[{\n\t\t\t\t\"sender\":\t{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t5.005594,\n\t\t\t\t\t\"seconds\":\t5.005594,\n\t\t\t\t\t\"bytes\":\t8781824,\n\t\t\t\t\t\"bits_per_second\":\t14035215.80056233,\n\t\t\t\t\t\"retransmits\":\t0,\n\t\t\t\t\t\"max_snd_cwnd\":\t1183016,\n\t\t\t\t\t\"max_snd_wnd\":\t3358080,\n\t\t\t\t\t\"max_rtt\":\t931894,\n\t\t\t\t\t\"min_rtt\":\t325553,\n\t\t\t\t\t\"mean_rtt\":\t733441,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t},\n\t\t\t\t\"receiver\":\t{\n\t\t\t\t\t\"socket\":\t5,\n\t\t\t\t\t\"start\":\t0,\n\t\t\t\t\t\"end\":\t5.98947,\n\t\t\t\t\t\"seconds\":\t5.005594,\n\t\t\t\t\t\"bytes\":\t7077888,\n\t\t\t\t\t\"bits_per_second\":\t9453775.3757845,\n\t\t\t\t\t\"sender\":\ttrue\n\t\t\t\t}\n\t\t\t}],\n\t\t\"sum_sent\":\t{\n\t\t\t\"start\":\t0,\n\t\t\t\"end\":\t5.005594,\n\t\t\t\"seconds\":\t5.005594,\n\t\t\t\"bytes\":\t8781824,\n\t\t\t\"bits_per_second\":\t14035215.80056233,\n\t\t\t\"retransmits\":\t0,\n\t\t\t\"sender\":\ttrue\n\t\t},\n\t\t\"sum_received\":\t{\n\t\t\t\"start\":\t0,\n\t\t\t\"end\":\t5.98947,\n\t\t\t\"seconds\":\t5.98947,\n\t\t\t\"bytes\":\t7077888,\n\t\t\t\"bits_per_second\":\t9453775.3757845,\n\t\t\t\"sender\":\ttrue\n\t\t},\n\t\t\"cpu_utilization_percent\":\t{\n\t\t\t\"host_total\":\t0.1368871565196251,\n\t\t\t\"host_user\":\t0,\n\t\t\t\"host_system\":\t0.1368871565196251,\n\t\t\t\"remote_total\":\t0.748026585889657,\n\t\t\t\"remote_user\":\t0.0245596747504338,\n\t\t\t\"remote_system\":\t0.72350030294717771\n\t\t},\n\t\t\"sender_tcp_congestion\":\t\"cubic\",\n\t\t\"receiver_tcp_congestion\":\t\"cubic\"\n\t}\n}"
+        },
+        {
+          "command": "docker exec linux-client traceroute -n -m 5 172.31.0.10",
+          "elapsed_seconds": 0.07,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "traceroute to 172.31.0.10 (172.31.0.10), 5 hops max, 60 byte packets\n 1  172.30.0.254  0.203 ms  0.146 ms  0.135 ms\n 2  172.31.0.10  0.125 ms  0.308 ms  0.300 ms"
+        },
+        {
+          "command": "docker exec linux-router sh -lc tc qdisc del dev eth1 root 2>/dev/null || true",
+          "elapsed_seconds": 0.078,
+          "returncode": 0,
+          "stderr": "",
+          "stdout": ""
+        }
+      ],
+      "scenario": {
+        "capture": {
+          "duration_seconds": 10,
+          "enabled": false,
+          "interface": "eth0"
+        },
+        "description": "Forwarding path with a router egress rate limit for throughput validation.",
+        "fault": {
+          "bandwidth_mbit": 10.0,
+          "delay_ms": null,
+          "enabled": true,
+          "interface": "eth1",
+          "loss_percent": null
+        },
+        "name": "bandwidth_limit",
+        "target": {
+          "expected_hops": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ],
+          "host": "172.31.0.10"
+        },
+        "tests": {
+          "iperf3": {
+            "duration_seconds": 5,
+            "reverse": false
+          },
+          "ping": {
+            "count": 5,
+            "timeout_seconds": 2
+          },
+          "traceroute": {
+            "max_hops": 5
+          }
+        },
+        "thresholds": {
+          "max_avg_latency_ms": 50.0,
+          "max_packet_loss_percent": 1.0,
+          "max_throughput_mbps": 15.0,
+          "min_throughput_mbps": 5.0,
+          "require_expected_hops": true
+        }
+      },
+      "status": "pass",
+      "test_results": {
+        "iperf3": {
+          "retransmits": null,
+          "seconds": 5.98947,
+          "throughput_mbps": 9.453775375784499
+        },
+        "ping": {
+          "avg_latency_ms": 1.359,
+          "max_latency_ms": 2.626,
+          "mdev_latency_ms": 0.761,
+          "min_latency_ms": 0.283,
+          "packet_loss_percent": 0.0,
+          "received": 5,
+          "transmitted": 5
+        },
+        "traceroute": {
+          "hops": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ]
+        }
+      },
+      "topology": {
+        "client": "linux-client",
+        "client_network": "172.30.0.0/24",
+        "router": "linux-router",
+        "router_client_ip": "172.30.0.254",
+        "router_server_ip": "172.31.0.254",
+        "server": "linux-server",
+        "server_ip": "172.31.0.10",
+        "server_network": "172.31.0.0/24"
+      },
+      "troubleshooting_recommendations": [
+        "Keep the scenario file with the report so thresholds remain auditable.",
+        "Repeat the run after Docker or host networking changes to confirm reproducibility."
+      ],
+      "validations": [
+        {
+          "detail": "Ping packet loss must remain within the scenario threshold.",
+          "name": "packet_loss",
+          "observed": 0.0,
+          "passed": true,
+          "threshold": 1.0
+        },
+        {
+          "detail": "Average ICMP round-trip latency must remain within threshold.",
+          "name": "avg_latency",
+          "observed": 1.359,
+          "passed": true,
+          "threshold": 50.0
+        },
+        {
+          "detail": "iperf3 measured throughput must meet the minimum target.",
+          "name": "min_throughput",
+          "observed": 9.454,
+          "passed": true,
+          "threshold": 5.0
+        },
+        {
+          "detail": "Measured throughput should remain near the configured rate limit.",
+          "name": "max_throughput",
+          "observed": 9.454,
+          "passed": true,
+          "threshold": 15.0
+        },
+        {
+          "detail": "Traceroute must include the expected routed path in order.",
+          "name": "expected_hops",
+          "observed": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ],
+          "passed": true,
+          "threshold": [
+            "172.30.0.254",
+            "172.31.0.10"
+          ]
+        }
       ]
     }
-  },
+  ],
+  "status": "pass",
   "topology": {
     "client": "linux-client",
     "client_network": "172.30.0.0/24",
@@ -132,52 +715,5 @@
     "server": "linux-server",
     "server_ip": "172.31.0.10",
     "server_network": "172.31.0.0/24"
-  },
-  "troubleshooting_recommendations": [
-    "Keep the scenario file with the report so thresholds remain auditable.",
-    "Repeat the run after Docker or host networking changes to confirm reproducibility."
-  ],
-  "validations": [
-    {
-      "detail": "Ping packet loss must remain within the scenario threshold.",
-      "name": "packet_loss",
-      "observed": 0.0,
-      "passed": true,
-      "threshold": 1.0
-    },
-    {
-      "detail": "Average ICMP round-trip latency must remain within threshold.",
-      "name": "avg_latency",
-      "observed": 0.726,
-      "passed": true,
-      "threshold": 50.0
-    },
-    {
-      "detail": "iperf3 measured throughput must meet the minimum target.",
-      "name": "min_throughput",
-      "observed": 9.519,
-      "passed": true,
-      "threshold": 5.0
-    },
-    {
-      "detail": "Measured throughput should remain near the configured rate limit.",
-      "name": "max_throughput",
-      "observed": 9.519,
-      "passed": true,
-      "threshold": 15.0
-    },
-    {
-      "detail": "Traceroute must include the expected routed path in order.",
-      "name": "expected_hops",
-      "observed": [
-        "172.30.0.254",
-        "172.31.0.10"
-      ],
-      "passed": true,
-      "threshold": [
-        "172.30.0.254",
-        "172.31.0.10"
-      ]
-    }
-  ]
+  }
 }

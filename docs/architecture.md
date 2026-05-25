@@ -4,6 +4,20 @@
 on the host, while network probes run inside Linux containers.
 
 ```mermaid
+flowchart LR
+    A["Python CLI"] --> B["Scenario YAML"]
+    B --> C["Docker Compose Lab"]
+    C --> D["linux-client"]
+    D --> E["linux-router"]
+    E --> F["linux-server"]
+    E --> G["tc/netem Fault Injection"]
+    D --> H["ping / iperf3 / traceroute"]
+    H --> I["Metrics Parser"]
+    I --> J["Threshold Validation"]
+    J --> K["JSON / CSV / HTML Report"]
+```
+
+```mermaid
 sequenceDiagram
     participant CLI as netlab CLI
     participant Router as linux-router

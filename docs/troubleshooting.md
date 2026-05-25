@@ -9,6 +9,21 @@ docker compose up -d --build
 
 If image builds fail, confirm Docker is running and the host can pull Debian package indexes.
 
+## macOS And Docker Desktop
+
+Fault injection is executed inside Linux containers using `tc/netem`. The project can be launched
+from macOS using Docker Desktop, but the network behavior is validated inside Linux containers.
+Docker daemon availability, Docker Desktop resource limits, and container networking permissions can
+affect integration tests.
+
+Notes:
+
+- `NET_ADMIN` capability is required for traffic-control operations.
+- Docker Desktop must be running before integration tests.
+- Docker daemon problems are environment issues, not necessarily project failures.
+- Linux-native execution may be more predictable for `tc/netem` validation.
+- macOS itself does not run `tc/netem` directly in this project.
+
 ## Client Cannot Reach Server
 
 Inspect routes:

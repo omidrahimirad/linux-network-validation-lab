@@ -15,22 +15,37 @@ def write_results_json(results: dict[str, object], path: Path) -> None:
 
 def write_results_csv(results: dict[str, object], path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    test_results = _as_mapping(results["test_results"])
-    validations = [_as_mapping(item) for item in _as_list(results["validations"])]
+    runs = _result_runs(results)
     with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["section", "metric", "value"])
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=["scenario", "section", "metric", "value"],
+            lineterminator="\n",
+        )
         writer.writeheader()
-        for section, values in test_results.items():
-            for metric, value in _as_mapping(values).items():
-                writer.writerow({"section": section, "metric": metric, "value": value})
-        for check in validations:
-            writer.writerow(
-                {
-                    "section": "validation",
-                    "metric": str(check["name"]),
-                    "value": f"{check['passed']} observed={check['observed']}",
-                }
-            )
+        for run in runs:
+            scenario_name = _scenario_name(run)
+            test_results = _as_mapping(run["test_results"])
+            validations = [_as_mapping(item) for item in _as_list(run["validations"])]
+            for section, values in test_results.items():
+                for metric, value in _as_mapping(values).items():
+                    writer.writerow(
+                        {
+                            "scenario": scenario_name,
+                            "section": section,
+                            "metric": metric,
+                            "value": value,
+                        }
+                    )
+            for check in validations:
+                writer.writerow(
+                    {
+                        "scenario": scenario_name,
+                        "section": "validation",
+                        "metric": str(check["name"]),
+                        "value": f"{check['passed']} observed={check['observed']}",
+                    }
+                )
 
 
 def load_results(path: Path) -> dict[str, object]:
@@ -39,7 +54,29 @@ def load_results(path: Path) -> dict[str, object]:
 
 def generate_html_report(results: dict[str, object], output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(_template().render(results=results), encoding="utf-8")
+    rendered = _template().render(report=_report_view(results))
+    clean_html = "\n".join(line.rstrip() for line in rendered.splitlines()) + "\n"
+    output.write_text(clean_html, encoding="utf-8")
+
+
+def merge_result_archive(
+    existing: dict[str, object] | None,
+    new_result: dict[str, object],
+) -> dict[str, object]:
+    runs: list[dict[str, object]] = []
+    if existing is not None:
+        runs.extend(_result_runs(existing))
+
+    new_name = _scenario_name(new_result)
+    runs = [run for run in runs if _scenario_name(run) != new_name]
+    runs.append(new_result)
+
+    return {
+        "generated_at": new_result["generated_at"],
+        "status": "pass" if all(run.get("status") == "pass" for run in runs) else "fail",
+        "topology": new_result["topology"],
+        "runs": runs,
+    }
 
 
 def _as_mapping(value: object) -> dict[str, Any]:
@@ -54,13 +91,55 @@ def _as_list(value: object) -> list[object]:
     return value
 
 
+def _result_runs(results: dict[str, object]) -> list[dict[str, object]]:
+    if "runs" in results:
+        return [_as_object_mapping(item) for item in _as_list(results["runs"])]
+    return [results]
+
+
+def _as_object_mapping(value: object) -> dict[str, object]:
+    if not isinstance(value, dict):
+        raise TypeError("expected mapping")
+    return cast(dict[str, object], value)
+
+
+def _scenario_name(result: dict[str, object]) -> str:
+    scenario = _as_mapping(result["scenario"])
+    return str(scenario["name"])
+
+
+def _test_metric(result: dict[str, object], test: str, metric: str) -> object:
+    test_results = _as_mapping(result["test_results"])
+    return _as_mapping(test_results[test])[metric]
+
+
+def _report_view(results: dict[str, object]) -> dict[str, object]:
+    runs = _result_runs(results)
+    return {
+        "generated_at": results.get("generated_at"),
+        "status": "pass" if all(run.get("status") == "pass" for run in runs) else "fail",
+        "topology": results.get("topology", runs[-1].get("topology")),
+        "runs": runs,
+        "summary": [
+            {
+                "scenario": _scenario_name(run),
+                "status": run["status"],
+                "avg_latency_ms": _test_metric(run, "ping", "avg_latency_ms"),
+                "packet_loss_percent": _test_metric(run, "ping", "packet_loss_percent"),
+                "throughput_mbps": _test_metric(run, "iperf3", "throughput_mbps"),
+            }
+            for run in runs
+        ],
+    }
+
+
 def _template() -> Template:
     return Template(
         """<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Network Validation Report - {{ results.scenario.name }}</title>
+  <title>Network Validation Report</title>
   <style>
     :root {
       color-scheme: light;
@@ -146,38 +225,36 @@ def _template() -> Template:
 <body>
 <main>
   <h1>Network Validation Report</h1>
-  <p>{{ results.scenario.description }}</p>
+  <p>
+    Docker-based Linux network validation evidence for connectivity, latency,
+    packet-loss, throughput, and tc/netem fault injection.
+  </p>
 
   <section class="summary">
     <div class="tile">
-      <div class="label">Scenario</div>
-      <div class="value">{{ results.scenario.name }}</div>
+      <div class="label">Scenarios</div>
+      <div class="value">{{ report.runs | length }}</div>
     </div>
     <div class="tile">
       <div class="label">Status</div>
-      <div class="value {{ results.status }}">{{ results.status|upper }}</div>
+      <div class="value {{ report.status }}">{{ report.status|upper }}</div>
     </div>
     <div class="tile">
-      <div class="label">Avg Latency</div>
-      <div class="value">{{ results.test_results.ping.avg_latency_ms }} ms</div>
+      <div class="label">Topology</div>
+      <div class="value">3 nodes</div>
     </div>
     <div class="tile">
-      <div class="label">Throughput</div>
-      <div class="value">
-        {{ "%.2f"|format(results.test_results.iperf3.throughput_mbps) }} Mbps
-      </div>
+      <div class="label">Output</div>
+      <div class="value">JSON / CSV / HTML</div>
     </div>
   </section>
 
   <h2>Executive Summary</h2>
   <p>
-    The lab executed a controlled validation run for <strong>{{ results.scenario.name }}</strong>.
-    Overall status is <strong class="{{ results.status }}">{{ results.status|upper }}</strong>.
-    The result reflects this Docker-based topology and the thresholds declared in the scenario file.
+    The lab executed <strong>{{ report.runs | length }}</strong> controlled validation scenario(s).
+    Overall status is <strong class="{{ report.status }}">{{ report.status|upper }}</strong>.
+    Results are container-lab measurements and should not be treated as physical-network accuracy.
   </p>
-
-  <h2>Scenario Configuration</h2>
-  <pre><code>{{ results.scenario | tojson(indent=2) }}</code></pre>
 
   <h2>Topology</h2>
   <div class="topology">
@@ -186,28 +263,42 @@ linux-client (172.30.0.10)
   -> linux-server (172.31.0.10)
   </div>
 
-  <h2>Fault Injection Parameters</h2>
+  <h2>Scenario Results</h2>
   <table>
-    <tr><th>Parameter</th><th>Value</th></tr>
-    {% for key, value in results.fault_injection.items() %}
-    <tr><td>{{ key }}</td><td>{{ value }}</td></tr>
+    <tr>
+      <th>Scenario</th>
+      <th>Status</th>
+      <th>Avg Latency</th>
+      <th>Packet Loss</th>
+      <th>Throughput</th>
+    </tr>
+    {% for item in report.summary %}
+    <tr>
+      <td>{{ item.scenario }}</td>
+      <td class="{{ item.status }}">{{ item.status|upper }}</td>
+      <td>{{ item.avg_latency_ms }} ms</td>
+      <td>{{ item.packet_loss_percent }}%</td>
+      <td>{{ "%.3f"|format(item.throughput_mbps) }} Mbps</td>
+    </tr>
     {% endfor %}
   </table>
 
-  <h2>Test Results</h2>
+  {% for run in report.runs %}
+  <h2>{{ run.scenario.name }} Details</h2>
+  <p>{{ run.scenario.description }}</p>
+
+  <h2>Fault Injection Parameters</h2>
   <table>
-    <tr><th>Test</th><th>Metric</th><th>Value</th></tr>
-    {% for test_name, metrics in results.test_results.items() %}
-      {% for metric, value in metrics.items() %}
-      <tr><td>{{ test_name }}</td><td>{{ metric }}</td><td>{{ value }}</td></tr>
-      {% endfor %}
+    <tr><th>Parameter</th><th>Value</th></tr>
+    {% for key, value in run.fault_injection.items() %}
+    <tr><td>{{ key }}</td><td>{{ value }}</td></tr>
     {% endfor %}
   </table>
 
   <h2>Threshold Validation</h2>
   <table>
     <tr><th>Check</th><th>Status</th><th>Observed</th><th>Threshold</th><th>Detail</th></tr>
-    {% for check in results.validations %}
+    {% for check in run.validations %}
     <tr>
       <td>{{ check.name }}</td>
       <td class="{{ 'pass' if check.passed else 'fail' }}">
@@ -221,11 +312,11 @@ linux-client (172.30.0.10)
   </table>
 
   <h2>Engineering Interpretation</h2>
-  <p>{{ results.engineering_interpretation }}</p>
+  <p>{{ run.engineering_interpretation }}</p>
 
   <h2>Troubleshooting Recommendations</h2>
   <ul>
-    {% for item in results.troubleshooting_recommendations %}
+    {% for item in run.troubleshooting_recommendations %}
     <li>{{ item }}</li>
     {% endfor %}
   </ul>
@@ -233,7 +324,7 @@ linux-client (172.30.0.10)
   <h2>Raw Command Summary</h2>
   <table>
     <tr><th>Command</th><th>Exit</th><th>Elapsed</th></tr>
-    {% for command in results.raw_commands %}
+    {% for command in run.raw_commands %}
     <tr>
       <td><code>{{ command.command }}</code></td>
       <td>{{ command.returncode }}</td>
@@ -241,6 +332,7 @@ linux-client (172.30.0.10)
     </tr>
     {% endfor %}
   </table>
+  {% endfor %}
 </main>
 </body>
 </html>

@@ -2,14 +2,30 @@ from __future__ import annotations
 
 import json
 import subprocess
+from collections.abc import Iterator
 
 import pytest
 
 pytestmark = pytest.mark.integration
 
 
-def run_command(command: list[str]) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(command, text=True, capture_output=True, check=True, timeout=60)
+def run_command(command: list[str], *, timeout: int = 60) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(command, text=True, capture_output=True, check=True, timeout=timeout)
+
+
+@pytest.fixture(scope="module", autouse=True)
+def compose_lab() -> Iterator[None]:
+    run_command(["docker", "compose", "up", "-d", "--build"], timeout=180)
+    try:
+        yield
+    finally:
+        subprocess.run(
+            ["docker", "compose", "down"],
+            text=True,
+            capture_output=True,
+            check=False,
+            timeout=120,
+        )
 
 
 def test_compose_services_are_running() -> None:

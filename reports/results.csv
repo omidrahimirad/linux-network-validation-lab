@@ -1,17 +1,62 @@
-section,metric,value
-ping,transmitted,5
-ping,received,5
-ping,packet_loss_percent,0.0
-ping,min_latency_ms,0.234
-ping,avg_latency_ms,0.726
-ping,max_latency_ms,1.236
-ping,mdev_latency_ms,0.362
-iperf3,throughput_mbps,9.51936648698906
-iperf3,retransmits,
-iperf3,seconds,5.838049
-traceroute,hops,"['172.30.0.254', '172.31.0.10']"
-validation,packet_loss,True observed=0.0
-validation,avg_latency,True observed=0.726
-validation,min_throughput,True observed=9.519
-validation,max_throughput,True observed=9.519
-validation,expected_hops,"True observed=['172.30.0.254', '172.31.0.10']"
+scenario,section,metric,value
+baseline,iperf3,retransmits,
+baseline,iperf3,seconds,3.007345
+baseline,iperf3,throughput_mbps,44356.9636978797
+baseline,ping,avg_latency_ms,0.168
+baseline,ping,max_latency_ms,0.242
+baseline,ping,mdev_latency_ms,0.048
+baseline,ping,min_latency_ms,0.111
+baseline,ping,packet_loss_percent,0.0
+baseline,ping,received,5
+baseline,ping,transmitted,5
+baseline,traceroute,hops,"['172.30.0.254', '172.31.0.10']"
+baseline,validation,packet_loss,True observed=0.0
+baseline,validation,avg_latency,True observed=0.168
+baseline,validation,min_throughput,True observed=44356.964
+baseline,validation,expected_hops,"True observed=['172.30.0.254', '172.31.0.10']"
+latency_degradation,iperf3,retransmits,
+latency_degradation,iperf3,seconds,3.087742
+latency_degradation,iperf3,throughput_mbps,64.86228966021125
+latency_degradation,ping,avg_latency_ms,85.826
+latency_degradation,ping,max_latency_ms,87.536
+latency_degradation,ping,mdev_latency_ms,1.579
+latency_degradation,ping,min_latency_ms,83.14
+latency_degradation,ping,packet_loss_percent,0.0
+latency_degradation,ping,received,5
+latency_degradation,ping,transmitted,5
+latency_degradation,traceroute,hops,"['172.30.0.254', '172.31.0.10']"
+latency_degradation,validation,packet_loss,True observed=0.0
+latency_degradation,validation,avg_latency,True observed=85.826
+latency_degradation,validation,min_throughput,True observed=64.862
+latency_degradation,validation,expected_hops,"True observed=['172.30.0.254', '172.31.0.10']"
+packet_loss,iperf3,retransmits,
+packet_loss,iperf3,seconds,3.003997
+packet_loss,iperf3,throughput_mbps,12.217109404569978
+packet_loss,ping,avg_latency_ms,0.19
+packet_loss,ping,max_latency_ms,0.518
+packet_loss,ping,mdev_latency_ms,0.107
+packet_loss,ping,min_latency_ms,0.06
+packet_loss,ping,packet_loss_percent,10.0
+packet_loss,ping,received,18
+packet_loss,ping,transmitted,20
+packet_loss,traceroute,hops,"['172.30.0.254', '172.31.0.10']"
+packet_loss,validation,packet_loss,True observed=10.0
+packet_loss,validation,avg_latency,True observed=0.19
+packet_loss,validation,min_throughput,True observed=12.217
+packet_loss,validation,expected_hops,"True observed=['172.30.0.254', '172.31.0.10']"
+bandwidth_limit,ping,transmitted,5
+bandwidth_limit,ping,received,5
+bandwidth_limit,ping,packet_loss_percent,0.0
+bandwidth_limit,ping,min_latency_ms,0.283
+bandwidth_limit,ping,avg_latency_ms,1.359
+bandwidth_limit,ping,max_latency_ms,2.626
+bandwidth_limit,ping,mdev_latency_ms,0.761
+bandwidth_limit,iperf3,throughput_mbps,9.453775375784499
+bandwidth_limit,iperf3,retransmits,
+bandwidth_limit,iperf3,seconds,5.98947
+bandwidth_limit,traceroute,hops,"['172.30.0.254', '172.31.0.10']"
+bandwidth_limit,validation,packet_loss,True observed=0.0
+bandwidth_limit,validation,avg_latency,True observed=1.359
+bandwidth_limit,validation,min_throughput,True observed=9.454
+bandwidth_limit,validation,max_throughput,True observed=9.454
+bandwidth_limit,validation,expected_hops,"True observed=['172.30.0.254', '172.31.0.10']"
