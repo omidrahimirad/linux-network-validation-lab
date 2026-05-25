@@ -10,6 +10,8 @@ services:
     cap_add:
       - NET_ADMIN
       - NET_RAW
+    extra_hosts:
+      - "linux-server:172.31.0.10"
     networks:
       client-net:
         ipv4_address: 172.30.0.10
@@ -49,6 +51,8 @@ services:
     cap_add:
       - NET_ADMIN
       - NET_RAW
+    extra_hosts:
+      - "linux-client:172.30.0.10"
     networks:
       server-net:
         ipv4_address: 172.31.0.10

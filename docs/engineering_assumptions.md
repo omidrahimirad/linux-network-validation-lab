@@ -1,7 +1,7 @@
 # Engineering Assumptions
 
 - The host has Docker and Docker Compose available.
-- The lab is run on a Linux-compatible Docker environment.
+- The lab is run on a Linux-compatible Docker environment with support for `NET_ADMIN`.
 - Docker can assign the configured static subnets without conflicting with existing local networks.
 - The router interface names are pinned by Compose as `eth0` for the client network and `eth1` for
   the server network.
@@ -9,6 +9,8 @@
 - Thresholds are scenario-specific and should be reviewed before using a result as evidence.
 - Results are intended for local validation and regression comparison, not production service-level
   monitoring.
+- The Docker image is based on Python 3.11 slim for version consistency with the host-side CLI,
+  although the containers primarily execute Linux network tools.
 
 ## Reproducibility Notes
 

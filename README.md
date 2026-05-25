@@ -5,7 +5,8 @@ throughput, and fault-injection testing.
 
 This project exists to provide a compact systems integration test bed where network behavior can be
 changed intentionally, measured consistently, and reported in a form that is useful for engineering
-review. It is not a production monitoring system, carrier-grade test platform, or cybersecurity lab.
+review. This project is a reproducible Linux-based network validation lab, not a production
+monitoring platform.
 
 ## Architecture
 
@@ -37,6 +38,7 @@ Requirements:
 - Python 3.11
 - `uv`
 - Docker and Docker Compose
+- A Docker environment that supports `NET_ADMIN` and Linux traffic control (`tc/netem`)
 
 ```bash
 uv sync
@@ -96,7 +98,17 @@ The validation run executes:
 - Optional packet capture with `tcpdump`
 
 Python unit tests cover configuration validation, command generation, parser behavior, threshold
-validation, and report generation. CI runs `ruff`, `mypy`, and `pytest`.
+validation, and report generation. CI runs `ruff`, `mypy`, and the unit test subset.
+
+```bash
+uv run pytest
+uv run pytest --cov=src --cov-report=term-missing
+uv run pytest -m integration
+```
+
+Integration tests are marked with `@pytest.mark.integration`. They require Docker Compose and
+privileged container networking support. They are intentionally not skipped silently; if Docker is
+unavailable or the lab cannot forward traffic, the integration run fails.
 
 ## Reports
 
@@ -116,6 +128,8 @@ command summary.
 - Container networking does not represent all physical network behaviors.
 - Throughput depends on host resources, Docker networking, and concurrent system load.
 - `tc/netem` impairment is applied at the configured router interface only.
+- Docker Desktop on macOS may require additional permissions and a healthy Linux VM for privileged
+  networking features.
 - This is a validation harness, not continuous production monitoring.
 
 ## Troubleshooting

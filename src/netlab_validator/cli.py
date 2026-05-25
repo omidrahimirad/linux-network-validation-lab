@@ -22,6 +22,12 @@ app = typer.Typer(help="Linux network validation lab controller.")
 console = Console()
 
 
+def _print_command_error(exc: CommandExecutionError) -> None:
+    console.print(f"[red]{exc}[/red]")
+    if exc.result.stderr:
+        console.print(exc.result.stderr)
+
+
 @app.callback()
 def main(
     verbose: Annotated[
@@ -35,21 +41,33 @@ def main(
 @app.command()
 def up() -> None:
     """Build and start the Docker Compose lab."""
-    result = compose_up(CommandRunner())
+    try:
+        result = compose_up(CommandRunner())
+    except CommandExecutionError as exc:
+        _print_command_error(exc)
+        raise typer.Exit(code=exc.result.returncode) from exc
     console.print(result.stdout.strip() or "Lab started.")
 
 
 @app.command()
 def down() -> None:
     """Stop and remove the Docker Compose lab."""
-    result = compose_down(CommandRunner())
+    try:
+        result = compose_down(CommandRunner())
+    except CommandExecutionError as exc:
+        _print_command_error(exc)
+        raise typer.Exit(code=exc.result.returncode) from exc
     console.print(result.stdout.strip() or "Lab stopped.")
 
 
 @app.command("ps")
 def ps() -> None:
     """Show Docker Compose service state."""
-    result = compose_ps(CommandRunner())
+    try:
+        result = compose_ps(CommandRunner())
+    except CommandExecutionError as exc:
+        _print_command_error(exc)
+        raise typer.Exit(code=exc.result.returncode) from exc
     console.print(result.stdout)
 
 
@@ -69,9 +87,7 @@ def run_command(
         scenario_config = load_scenario(scenario)
         results = run_scenario(scenario_config, CommandRunner(), output_dir=output_dir)
     except CommandExecutionError as exc:
-        console.print(f"[red]{exc}[/red]")
-        if exc.result.stderr:
-            console.print(exc.result.stderr)
+        _print_command_error(exc)
         raise typer.Exit(code=exc.result.returncode) from exc
 
     json_path = output_dir / "results.json"

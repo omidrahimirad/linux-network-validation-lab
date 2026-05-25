@@ -116,6 +116,11 @@ def run_scenario(
     checks = validate_results(scenario, ping, iperf, traceroute)
     status = overall_status(checks)
 
+    cleanup = reset_fault_command(scenario.fault.interface, router=active_topology.router)
+    cleanup_result = runner.exec(cleanup.container, cleanup.argv, check=False)
+    raw_commands.append(_record(cleanup_result))
+    fault_commands.append(cleanup.display)
+
     return {
         "generated_at": datetime.now(UTC).isoformat(),
         "scenario": scenario.model_dump(),

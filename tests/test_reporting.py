@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 from netlab_validator.reporting import generate_html_report, write_results_csv, write_results_json
 
@@ -39,7 +40,7 @@ def sample_results() -> dict[str, object]:
     }
 
 
-def test_write_results_json_and_csv(tmp_path) -> None:  # type: ignore[no-untyped-def]
+def test_write_results_json_and_csv(tmp_path: Path) -> None:
     results = sample_results()
     json_path = tmp_path / "results.json"
     csv_path = tmp_path / "results.csv"
@@ -51,7 +52,7 @@ def test_write_results_json_and_csv(tmp_path) -> None:  # type: ignore[no-untype
     assert "validation,packet_loss" in csv_path.read_text(encoding="utf-8")
 
 
-def test_generate_html_report(tmp_path) -> None:  # type: ignore[no-untyped-def]
+def test_generate_html_report(tmp_path: Path) -> None:
     output = tmp_path / "report.html"
 
     generate_html_report(sample_results(), output)

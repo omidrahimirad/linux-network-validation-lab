@@ -19,6 +19,7 @@ netlab = "netlab_validator.cli:app"
 dev = [
     "mypy>=1.11.1",
     "pytest>=8.3.2",
+    "pytest-cov>=7.1.0",
     "ruff>=0.6.2",
     "types-pyyaml>=6.0.12.20240808",
 ]
@@ -47,4 +48,7 @@ warn_unreachable = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
+addopts = "-q -m 'not integration'"
+markers = [
+    "integration: Docker Compose network lab tests that require a running Docker daemon",
+]
